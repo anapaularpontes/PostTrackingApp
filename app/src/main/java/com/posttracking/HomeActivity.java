@@ -1,6 +1,7 @@
 package com.posttracking;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.posttracking.adapters.HomeListAdapter;
 import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
 import com.posttracking.api.models.RetroUsers;
+import com.posttracking.api.models.Vehicle;
 
 import java.util.List;
 import retrofit2.Call;
@@ -37,22 +39,28 @@ public class HomeActivity extends AppCompatActivity {
     // Create the retrofit instance
     postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
 
-    Call<List<RetroUsers>> call = postTrackingAPI.getAllUsers();
-    call.enqueue(new Callback<List<RetroUsers>>() {
+    Call<List<Vehicle>> call = postTrackingAPI.getAllVehicles();
+    call.enqueue(new Callback<List<Vehicle>>() {
       @Override
-      public void onResponse(Call<List<RetroUsers>> call, Response<List<RetroUsers>> response) {
+      public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
         loadDataList(response.body());
       }
 
       @Override
-      public void onFailure(Call<List<RetroUsers>> call, Throwable t) {
+      public void onFailure(Call<List<Vehicle>> call, Throwable t) {
         Toast.makeText(HomeActivity.this, "Unable to load users", Toast.LENGTH_SHORT).show();
       }
     });
   }
 
+  @Override
+  public void onBackPressed() {
+    Intent it = new Intent(this, LoginActivity.class);
+    startActivity(it);
+  }
+
   //Display the retrieved data as a list//
-  private void loadDataList(List<RetroUsers> usersList) {
+  private void loadDataList(List<Vehicle> usersList) {
     homeListAdapter = new HomeListAdapter(usersList);
 
     //Use a LinearLayoutManager with default vertical orientation//

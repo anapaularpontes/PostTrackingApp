@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.posttracking.R;
 import com.posttracking.api.models.RetroUsers;
+import com.posttracking.api.models.Vehicle;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ import java.util.List;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.CustomViewHolder> {
 
-  private List<RetroUsers> dataList;
+  private List<Vehicle> dataList;
 
-  public HomeListAdapter(List<RetroUsers> dataList){
+  public HomeListAdapter(List<Vehicle> dataList){
 
     this.dataList = dataList;
   }
@@ -47,7 +48,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.Custom
 
   @Override
   public void onBindViewHolder(CustomViewHolder holder, int position) {
-    holder.textUser.setText(dataList.get(position).getUser());
+    holder.textUser.setText(dataList.get(position).getDescription());
   }
 
   //Calculate the item count for the RecylerView//

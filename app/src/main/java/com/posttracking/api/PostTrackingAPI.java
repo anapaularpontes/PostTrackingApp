@@ -1,6 +1,7 @@
 package com.posttracking.api;
 
 import com.posttracking.api.models.RetroUsers;
+import com.posttracking.api.models.Vehicle;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface PostTrackingAPI {
   //TESTS
   @GET("/users")
   Call<List<RetroUsers>> getAllUsers();
+
+  @GET("api/vehicles")
+  Call<List<Vehicle>> getAllVehicles();
 }

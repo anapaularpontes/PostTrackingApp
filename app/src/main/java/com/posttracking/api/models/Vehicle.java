@@ -4,19 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vehicle {
-  private int Id = 0;
+  private int id;
   private String description;
   private int maxWeight; // Kg
   private int maxVolume; // dc3
-  private boolean available = true;
-  List<Journey> routes = new ArrayList<Journey>();
+  private boolean available;
+  List<Journey> routes;
+
+  public Vehicle(int id, String description, int maxWeight, int maxVolume, boolean available, List<Journey> routes) {
+    this.id = id;
+    this.description = description;
+    this.maxWeight = maxWeight;
+    this.maxVolume = maxVolume;
+    this.available = available;
+    this.routes = routes;
+  }
 
   public int getId() {
-    return Id;
+    return id;
   }
 
   public void setId(int id) {
-    Id = id;
+    id = id;
   }
 
   public String getDescription() {
