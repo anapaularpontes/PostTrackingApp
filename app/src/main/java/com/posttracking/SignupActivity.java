@@ -35,7 +35,6 @@ public class SignupActivity extends AppCompatActivity {
         passwordText = (EditText) findViewById(R.id.input_password);
         reEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
         signupButton = (Button) findViewById(R.id.btn_signup);
-        loginLink = (TextView) findViewById(R.id.link_login);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,24 +42,20 @@ public class SignupActivity extends AppCompatActivity {
                 signup();
             }
         });
-
-        loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
     }
 
     @Override
     public void onBackPressed() {
-        // Disable going back to the MainActivity
-        Intent it = new Intent(this, LoginActivity.class);
-        startActivity(it);
+        // Finish the registration screen and return to the Login activity
+        navigateToLogin();
+    }
+
+    private void navigateToLogin() {
+        // Finish the registration screen and return to the Login activity
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     public void signup() {
