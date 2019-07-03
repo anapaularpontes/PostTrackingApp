@@ -43,12 +43,14 @@ public class HomeActivity extends AppCompatActivity {
     call.enqueue(new Callback<List<Vehicle>>() {
       @Override
       public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+        Log.i(TAG, response.body().toString());
         loadDataList(response.body());
       }
 
       @Override
       public void onFailure(Call<List<Vehicle>> call, Throwable t) {
-        Toast.makeText(HomeActivity.this, "Unable to load users", Toast.LENGTH_SHORT).show();
+          Log.i(TAG, t.getMessage());
+        Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
       }
     });
   }
