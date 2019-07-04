@@ -14,13 +14,12 @@ import android.widget.Toast;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    EditText nameText;
-    EditText addressText;
+    EditText firstNameText;
+    EditText lastNameText;
     EditText emailText;
-    EditText mobileText;
     EditText passwordText;
     EditText reEnterPasswordText;
-    Button signupButton;
+    Button signUpButton;
     TextView loginLink;
     
     @Override
@@ -28,15 +27,14 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        nameText = (EditText) findViewById(R.id.input_name);
-        addressText = (EditText) findViewById(R.id.input_address);
+        firstNameText = (EditText) findViewById(R.id.input_firstName);
+        lastNameText = (EditText) findViewById(R.id.input_lastName);
         emailText = (EditText) findViewById(R.id.input_email);
-        mobileText = (EditText) findViewById(R.id.input_mobile);
         passwordText = (EditText) findViewById(R.id.input_password);
         reEnterPasswordText = (EditText) findViewById(R.id.input_reEnterPassword);
-        signupButton = (Button) findViewById(R.id.btn_signup);
+        signUpButton = (Button) findViewById(R.id.btn_signup);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signup();
@@ -66,7 +64,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        signupButton.setEnabled(false);
+        signUpButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -74,10 +72,9 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = nameText.getText().toString();
-        String address = addressText.getText().toString();
+        String fName = firstNameText.getText().toString();
+        String lName = lastNameText.getText().toString();
         String email = emailText.getText().toString();
-        String mobile = mobileText.getText().toString();
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
@@ -97,7 +94,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void onSignupSuccess() {
-        signupButton.setEnabled(true);
+        signUpButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
@@ -105,31 +102,30 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
-        signupButton.setEnabled(true);
+        signUpButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String name = nameText.getText().toString();
-        String address = addressText.getText().toString();
+        String fName = firstNameText.getText().toString();
+        String lName = lastNameText.getText().toString();
         String email = emailText.getText().toString();
-        String mobile = mobileText.getText().toString();
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            nameText.setError("at least 3 characters");
+        if (fName.isEmpty() || fName.length() < 3) {
+            firstNameText.setError("at least 3 characters");
             valid = false;
         } else {
-            nameText.setError(null);
+            firstNameText.setError(null);
         }
 
-        if (address.isEmpty()) {
-            addressText.setError("Enter Valid Address");
+        if (lName.isEmpty() || lName.length() < 3) {
+            lastNameText.setError("at least 3 characters");
             valid = false;
         } else {
-            addressText.setError(null);
+            lastNameText.setError(null);
         }
 
 
@@ -138,13 +134,6 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         } else {
             emailText.setError(null);
-        }
-
-        if (mobile.isEmpty() || mobile.length()!=10) {
-            mobileText.setError("Enter Valid Mobile Number");
-            valid = false;
-        } else {
-            mobileText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {

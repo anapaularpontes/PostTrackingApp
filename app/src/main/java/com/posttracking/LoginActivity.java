@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailText;
     EditText passwordText;
     Button loginButton;
-    TextView signupLink;
+    TextView signUpLink;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         emailText = (EditText) findViewById(R.id.input_email);
         passwordText = (EditText) findViewById(R.id.input_password);
         loginButton = (Button) findViewById(R.id.btn_login);
-        signupLink = (Button) findViewById(R.id.link_signup);
+        signUpLink = (Button) findViewById(R.id.link_signup);
         
         loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signupLink.setOnClickListener(new View.OnClickListener() {
+        signUpLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
