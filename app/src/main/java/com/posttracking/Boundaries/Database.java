@@ -13,7 +13,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     public Database(Context context) {
-        super(context, this.DBName, null, this.DBVersion);
+        super(context, DBName, null, DBVersion);
     }
 
     @Override
