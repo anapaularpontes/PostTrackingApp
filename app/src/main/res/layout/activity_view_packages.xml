@@ -5,13 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeActivity" >
+    tools:context=".ViewPackagesActivity">
 
     <TextView
-        android:id="@+id/listMenu"
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="TextView"
-        android:textSize="30sp" />
+        android:text="View Packages" />
 </LinearLayout>

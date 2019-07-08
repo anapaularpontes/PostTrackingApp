@@ -1,7 +1,10 @@
 package com.posttracking;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.posttracking.Boundaries.CustomerDAO;
+import com.posttracking.Boundaries.Database;
+import com.posttracking.Entities.Customer;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -53,16 +60,10 @@ public class SignupActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     public void signup() {
         Log.d(TAG, "Signup");
-
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
 
         signUpButton.setEnabled(false);
 
@@ -78,33 +79,25 @@ public class SignupActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        Customer cust = new Customer();
+        cust.setFirstName(fName);
+        cust.setLastName(lName);
+        cust.setEmail(email);
+
+        CustomerDAO custDAO = new CustomerDAO(this);
+        custDAO.addCustomer(cust);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
+                        finish();
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 1500);
     }
 
-
-    public void onSignupSuccess() {
-        signUpButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        signUpButton.setEnabled(true);
-    }
-
+    /*
     public boolean validate() {
         boolean valid = true;
 
@@ -127,7 +120,6 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             lastNameText.setError(null);
         }
-
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailText.setError("enter a valid email address");
@@ -152,4 +144,5 @@ public class SignupActivity extends AppCompatActivity {
 
         return valid;
     }
+    */
 }
