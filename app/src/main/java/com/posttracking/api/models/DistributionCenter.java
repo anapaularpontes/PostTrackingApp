@@ -55,4 +55,9 @@ public class DistributionCenter {
   public void setZipCode(String zipCode) {
     this.zipCode = zipCode;
   }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
 }

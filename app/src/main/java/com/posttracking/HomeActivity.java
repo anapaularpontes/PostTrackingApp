@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 
 import com.posttracking.Boundaries.Database;
+import com.posttracking.Boundaries.LocalConfig;
 
 public class HomeActivity extends ListActivity {
 
@@ -45,6 +46,7 @@ public class HomeActivity extends ListActivity {
                 Log.d("Menu Item", "Invoices");
                 break;
         }
+        LocalConfig.customerId = customerId;
         startActivity(menuItem);
     }
 }

@@ -23,18 +23,24 @@ public class Database extends SQLiteOpenHelper {
                 " firstName TEXT," +
                 " lastName TEXT," +
                 " emailAddress TEXT," +
+                " apiID INT DEFAULT 0," +
                 " password TEXT)");
         db.execSQL(sqlCreateCustomer);
         Log.d(LOGTAG, "Creating table customer" );
 
-        String sqlCreatePack = ("CREATE TABLE pack (" +
+        String sqlCreatePackage = ("CREATE TABLE package (" +
                 " pack_id INTEGER PRIMARY KEY," +
                 " recipient TEXT," +
-                " weight TEXT," +
-                " volume TEXT," +
+                " address TEXT," +
+                " weight NUMERIC," +
+                " volume NUMERIC," +
+                " origin INTEGER," +
+                " destination INTEGER," +
                 " customer INT," +
+                " status INT DEFAULT 0," +
+                " apiID INT DEFAULT 0," +
                 " FOREIGN KEY (customer) REFERENCES customer(customer_id))");
-        db.execSQL(sqlCreatePack);
+        db.execSQL(sqlCreatePackage);
         Log.d(LOGTAG, "Creating table pack" );
 
     }
@@ -42,5 +48,6 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS customer");
+        db.execSQL("DROP TABLE IF EXISTS package");
     }
 }
