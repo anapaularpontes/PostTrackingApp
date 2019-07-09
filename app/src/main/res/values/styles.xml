@@ -10,14 +10,14 @@
         <item name="colorAccent">@color/charcoal</item>
 
         <item name="android:windowBackground">@color/primary</item>
-
+        <item name="android:background">@color/primary</item>
         <item name="colorControlNormal">@color/charcoal</item>
         <item name="colorControlActivated">@color/charcoal</item>
         <item name="colorControlHighlight">@color/charcoal</item>
         <item name="android:textColorHint">@color/charcoal</item>
 
         <item name="colorButtonNormal">@color/primary_darker</item>
-
+        <item name="android:textColorPrimary">@color/charcoal</item>
         <item name="android:textColor">@color/charcoal</item>
 
     </style>
