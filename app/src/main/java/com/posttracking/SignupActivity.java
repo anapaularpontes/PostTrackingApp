@@ -1,10 +1,8 @@
 package com.posttracking;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
+
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,10 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.posttracking.Boundaries.CustomerDAO;
-import com.posttracking.Boundaries.Database;
+
 import com.posttracking.Entities.Customer;
 
 public class SignupActivity extends AppCompatActivity {
@@ -67,8 +65,7 @@ public class SignupActivity extends AppCompatActivity {
 
         signUpButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();

@@ -11,5 +11,13 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Packages" />
+        android:background="@color/primary_darker"
+        android:gravity="center_horizontal"
+        android:text="View Packages"
+        android:textSize="30sp" />
+
+    <ListView
+        android:id="@+id/lvPackages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

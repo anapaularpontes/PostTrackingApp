@@ -12,18 +12,6 @@ public class Customer {
   private String zipCode = "";
   private boolean active = true;
 
-  public Customer(int id, String firstName, String lastName, String phoneNumber, String emailAddress, String address, String city, String province, String zipCode, boolean active) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.phoneNumber = phoneNumber;
-    this.emailAddress = emailAddress;
-    this.address = address;
-    this.city = city;
-    this.province = province;
-    this.zipCode = zipCode;
-    this.active = active;
-  }
 
   public int getId() {
     return id;
