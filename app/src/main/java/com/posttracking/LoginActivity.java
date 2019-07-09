@@ -86,7 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Click!!!!", c.getFirstName());
 
                 } else {
-                    Toast.makeText(getApplicationContext(),"Wrong email and/or password.",Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(),"Wrong email and/or password.",Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         });

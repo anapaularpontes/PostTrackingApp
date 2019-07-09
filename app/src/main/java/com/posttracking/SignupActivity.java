@@ -65,9 +65,6 @@ public class SignupActivity extends AppCompatActivity {
         signUpButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
 
         String fName = firstNameText.getText().toString();
         String lName = lastNameText.getText().toString();
@@ -76,18 +73,23 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
         CustomerDAO custDAO = new CustomerDAO(this);
-        boolean emailExist = custDAO.checkEmail(emailText.getText().toString());
-
+        boolean emailExist = custDAO.checkEmail(email);
+        Log.d("Email exist", String.valueOf(emailExist));
         if(emailExist) {
-            Toast.makeText(getApplicationContext(),"This email already exists.",Toast.LENGTH_LONG);
             emailText.setText("");
+            signUpButton.setEnabled(true);
+            Toast toast = Toast.makeText(getApplicationContext(),"This email already exists.",Toast.LENGTH_LONG);
+            toast.show();
         } else {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Creating Account...");
+            progressDialog.show();
+
             Customer cust = new Customer();
             cust.setFirstName(fName);
             cust.setLastName(lName);
             cust.setEmail(email);
             cust.setPassword(password);
-
             custDAO.addCustomer(cust);
 
             new android.os.Handler().postDelayed(

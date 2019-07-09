@@ -14,15 +14,15 @@
         android:paddingRight="24dp">
 
         <TextView
-          android:layout_gravity="center"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/app_name"
-          android:textSize="40sp"
-          android:textStyle="bold"
-          android:textColor="@color/white"
-          android:layout_marginTop="30dp"
-          android:layout_marginBottom="30dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/app_name"
+            android:textColor="@color/charcoal"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
         <!-- Name Label -->
         <android.support.design.widget.TextInputLayout
@@ -36,7 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="First Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/charcoal"
+                android:textColorHint="@color/charcoal" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Address Label -->
@@ -51,7 +53,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/charcoal"
+                android:textColorHint="@color/charcoal" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -62,11 +66,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:textColor="@color/charcoal"
+                android:textColorHint="@color/charcoal" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -78,11 +86,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_password"
+
+            <EditText
+                android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Password"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:textColor="@color/charcoal"
+                android:textColorHint="@color/charcoal" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Re-enter Label -->
@@ -91,11 +103,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_reEnterPassword"
+
+            <EditText
+                android:id="@+id/input_reEnterPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Re-enter Password"
                 android:inputType="textPassword"
-                android:hint="Re-enter Password"/>
+                android:textColor="@color/charcoal"
+                android:textColorHint="@color/charcoal" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Signup Button -->
@@ -106,7 +122,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Create Account"/>
+            android:text="Create Account"
+            android:textColor="@color/charcoal" />
 
     </LinearLayout>
 </ScrollView>

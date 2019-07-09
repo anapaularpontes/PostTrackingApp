@@ -13,5 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="TextView"
+        android:textColor="@color/charcoal"
+        android:textColorHint="@color/charcoal"
         android:textSize="30sp" />
 </LinearLayout>
