@@ -1,10 +1,7 @@
 package com.posttracking;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.posttracking.Boundaries.CustomerDAO;
-import com.posttracking.Boundaries.Database;
 import com.posttracking.Entities.Customer;
 
 public class SignupActivity extends AppCompatActivity {
@@ -79,23 +75,32 @@ public class SignupActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
-        Customer cust = new Customer();
-        cust.setFirstName(fName);
-        cust.setLastName(lName);
-        cust.setEmail(email);
-
         CustomerDAO custDAO = new CustomerDAO(this);
-        custDAO.addCustomer(cust);
+        boolean emailExist = custDAO.checkEmail(emailText.getText().toString());
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        progressDialog.dismiss();
-                    }
-                }, 1500);
-    }
+        if(emailExist) {
+            Toast.makeText(getApplicationContext(),"This email already exists.",Toast.LENGTH_LONG);
+            emailText.setText("");
+        } else {
+            Customer cust = new Customer();
+            cust.setFirstName(fName);
+            cust.setLastName(lName);
+            cust.setEmail(email);
+            cust.setPassword(password);
+
+            custDAO.addCustomer(cust);
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            finish();
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            progressDialog.dismiss();
+                        }
+                    }, 1500);
+            }
+        }
+
 
     /*
     public boolean validate() {

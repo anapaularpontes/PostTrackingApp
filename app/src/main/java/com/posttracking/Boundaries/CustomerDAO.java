@@ -28,18 +28,53 @@ public class CustomerDAO extends Database{
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<Customer>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select customer_id, firstName, lastName, emailAddress from customer", null);
+        Cursor cursor = db.rawQuery("select customer_id, firstName, lastName, emailAddress, password from customer", null);
         if(cursor.moveToFirst()) {
             do {
                 Customer c = new Customer();
                 c.setFirstName(cursor.getString(1));
                 c.setLastName(cursor.getString(2));
                 c.setEmail(cursor.getString(3));
+                c.setPassword(cursor.getString(4));
                 c.setCustomer_id(cursor.getInt(0));
                 customers.add(c);
             } while (cursor.moveToNext());
         }
         return customers;
+    }
+
+    public Customer getCustomer(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select customer_id, firstName, lastName, emailAddress, password from customer where emailAddress = ?", new String[] {email});
+        Customer customer = new Customer();
+        if(cursor.moveToFirst()) {
+            customer.setFirstName(cursor.getString(1));
+            customer.setLastName(cursor.getString(2));
+            customer.setEmail(cursor.getString(3));
+            customer.setPassword(cursor.getString(4));
+            customer.setCustomer_id(cursor.getInt(0));
+        }
+        return customer;
+    }
+
+    public boolean checkEmail(String email) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select emailAddress from customer where emailAddress = ?", new String[] {email});
+        if(cursor.getCount() > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean checkLogin(String email, String password) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select emailAddress, password from customer where emailAddress = ? and password = ?", new String[] {email, password});
+        if(cursor.getCount() > 0)
+            return true;
+        else
+            return false;
     }
 
 }

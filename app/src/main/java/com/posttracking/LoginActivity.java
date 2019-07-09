@@ -1,6 +1,7 @@
 package com.posttracking;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -31,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-
     EditText emailText;
     EditText passwordText;
     Button loginButton;
@@ -57,10 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Customer c = customers.get(position);
-                    goHome.putExtra("customerId", c.getCustomer_id());
-                    startActivity(goHome);
-                    finish();
-                    Log.d("Click!!!!", c.getFirstName());
+                    emailText.setText(c.getEmail());
                 }
             });
         }
@@ -72,8 +69,27 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.btn_login);
         signUpLink = (Button) findViewById(R.id.link_signup);
 
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Log.d("email", emailText.getText().toString());
+                Log.d("pass", passwordText.getText().toString());
 
+                boolean loginOK = db.checkLogin(emailText.getText().toString(), passwordText.getText().toString());
+                Log.d("login status", String.valueOf(loginOK));
+                if(loginOK) {
+                    Customer c = db.getCustomer(emailText.getText().toString());
+                    goHome.putExtra("customerId", c.getCustomer_id());
+                    startActivity(goHome);
+                    finish();
+                    Log.d("Click!!!!", c.getFirstName());
+
+                } else {
+                    Toast.makeText(getApplicationContext(),"Wrong email and/or password.",Toast.LENGTH_LONG);
+                }
+            }
+        });
         signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
