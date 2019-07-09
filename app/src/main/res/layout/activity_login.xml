@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,11 +14,18 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="59dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            app:srcCompat="@drawable/img_package" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="59dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:text="@string/app_name"
             android:textColor="@color/charcoal"
@@ -36,7 +44,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Password"/>
+            android:hint="Password" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -46,7 +54,9 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email" />
+                android:background="@color/white"
+                android:hint="Email"
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -57,9 +67,11 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColor="@color/charcoal" />
+                android:textColor="@color/charcoal"
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

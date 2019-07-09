@@ -78,6 +78,7 @@ public class SignupActivity extends AppCompatActivity {
         if(emailExist) {
             emailText.setText("");
             signUpButton.setEnabled(true);
+            emailText.requestFocus();
             Toast toast = Toast.makeText(getApplicationContext(),"This email already exists.",Toast.LENGTH_LONG);
             toast.show();
         } else {

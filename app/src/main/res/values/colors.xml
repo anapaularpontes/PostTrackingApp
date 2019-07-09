@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="primary">#f4e5d5</color>
-  <color name="primary_dark">#a9b7c0</color>
-  <color name="primary_darker">#c7d9c6</color>
+
+  <!--<color name="mintColorPrimary">#76be2f</color>
+  <color name="mintColorPrimaryDark">#289b23</color>
+  <color name="mintColorAccent">#f9a825</color>
+  <color name="mintPrimaryText">#424242</color>
+  <color name="mintButtonNormal">#76be2f</color>
+  <color name="mintButtonHighlight">#81c784</color>
+  <color name="mintButtonText">#FFFFFF</color>-->
+
+
+  <color name="primary">#f9f2e9</color>
+  <color name="primary_dark">#76be2f</color>
+  <color name="primary_darker">#f9a825</color>
   <color name="charcoal">#373737</color>
 
   <color name="black">#000000</color>

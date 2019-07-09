@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ArrayAdapter adap;
         if (customers.size() == 0) {
-            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved\n, Please SignUp"});
+            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved,\nPlease Sign Up or Log In"});
         } else {
             adap = new ArrayAdapter<Customer>(this, R.layout.login_list_view, customers);
 
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Customer c = customers.get(position);
                     emailText.setText(c.getEmail());
+                    passwordText.requestFocus();
                 }
             });
         }
