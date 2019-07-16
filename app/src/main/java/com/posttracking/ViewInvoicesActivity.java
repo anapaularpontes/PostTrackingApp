@@ -22,7 +22,7 @@ public class ViewInvoicesActivity extends AppCompatActivity {
         InvoiceDAO iDAO = new InvoiceDAO(this);
         Log.d("Number of invoices", String.valueOf(iDAO.getInvoices(LocalConfig.customerId).size()));
         lvInvoices = findViewById(R.id.lvInvoices);
-        ArrayAdapter<Invoice> adap = new ArrayAdapter<Invoice>(this, R.layout.login_list_view, iDAO.getInvoices(LocalConfig.customerId));
+        ArrayAdapter<Invoice> adap = new ArrayAdapter<Invoice>(this, R.layout.invoice_list_view, iDAO.getInvoices(LocalConfig.customerId));
         lvInvoices.setAdapter(adap);
     }
 

@@ -4,6 +4,7 @@ public class Invoice {
     int invoice_id = 0;
     int cust_id = 0;
     int pack_id = 0;
+    int quote_id = 0;
     double amount = 0;
     int status = 0;
 
@@ -31,13 +32,17 @@ public class Invoice {
         this.pack_id = pack_id;
     }
 
+    public int getQuote_id() {
+        return quote_id;
+    }
+
+    public void setQuote_id(int quote_id) { this.quote_id = quote_id; }
+
     public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    public void setAmount(double amount) { this.amount = amount; }
 
     public int getStatus() {
         return status;
