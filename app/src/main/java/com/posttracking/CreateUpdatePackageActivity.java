@@ -29,6 +29,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
     CreateUpdatePackageActivity _this = this;
     private Spinner origin;
     private Spinner destination;
+    private ArrayAdapter<DistributionCenter> adap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,32 +42,21 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
         destination = findViewById(R.id.destination);
         Button savePackage = findViewById(R.id.btnSave);
 
-        postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
-        Call<List<DistributionCenter>> call = postTrackingAPI.getAllDistributionCenter();
-        call.enqueue(new Callback<List<DistributionCenter>>() {
-            @Override
-            public void onResponse(Call<List<DistributionCenter>> call, Response<List<DistributionCenter>> response) {
-                Log.d("CHAMOUUUUU", response.body().toString());
-                ArrayAdapter<DistributionCenter> adap = new ArrayAdapter<DistributionCenter>(_this, R.layout.support_simple_spinner_dropdown_item,response.body());
-                origin.setAdapter(adap);
-                destination.setAdapter(adap);
-            }
-
-            @Override
-            public void onFailure(Call<List<DistributionCenter>> call, Throwable t) {
-                //TODO create a backup list of Distribution Center
-                Log.d("CHAMOUUUUU", "falhaaaaaa");
-            }
-        });
-
         final TextView recipient = findViewById(R.id.txtRecipient);
         final TextView address = findViewById(R.id.txtAddress);
         final TextView volume = findViewById(R.id.txtVolume);
         final TextView weight = findViewById(R.id.txtWeight);
+
+
         final ProgressDialog progressDialog = new ProgressDialog(CreateUpdatePackageActivity.this);
         progressDialog.setIndeterminate(true);
 
+        final PackageDAO pDAO = new PackageDAO(_this);
+
         if(package_id==0) { //Creating a new Project
+
+            updateSpinners(null);
+
             savePackage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,7 +74,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                         p.setDestination((DistributionCenter) destination.getSelectedItem());
 
                         progressDialog.show();
-                        PackageDAO pDAO = new PackageDAO(_this);
+
                         pDAO.createPackage(p);
 
                         new android.os.Handler().postDelayed(
@@ -105,12 +95,91 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
             TextView title = findViewById(R.id.txtTitle);
             title.setText("Edit Package");
             savePackage.setText("Update");
+
+
+            final Package p = pDAO.getPackage(package_id);
+            recipient.setText(p.getRecipient());
+            address.setText(p.getAddress());
+            volume.setText(String.valueOf(p.getVolume()));
+            weight.setText(String.valueOf(p.getWeight()));
+
+            updateSpinners(p);
+
+            savePackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progressDialog.setMessage("Updating Package");
+
+                    try {
+
+                        p.setRecipient((recipient.getText().toString().length()==0?"Unknown":
+                                recipient.getText().toString()));
+                        p.setAddress(address.getText().toString());
+                        p.setVolume(Double.parseDouble(volume.getText().toString()));
+                        p.setWeight(Double.parseDouble(weight.getText().toString()));
+                        p.setOrigin((DistributionCenter) origin.getSelectedItem());
+                        p.setDestination((DistributionCenter) destination.getSelectedItem());
+
+                        progressDialog.show();
+
+                        pDAO.updatePackage(p);
+
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+                                        finish();
+                                        progressDialog.dismiss();
+                                    }
+                                }, 1500);
+
+                    } catch (Exception e) {
+                        Toast t = Toast.makeText(getApplicationContext(), "Please, review your fields", Toast.LENGTH_SHORT);
+                        t.show();
+                    }
+                }
+            });
         }
     }
 
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    public void updateSpinners(final Package p) {
+        postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
+        Call<List<DistributionCenter>> call = postTrackingAPI.getAllDistributionCenter();
+        call.enqueue(new Callback<List<DistributionCenter>>() {
+            @Override
+            public void onResponse(Call<List<DistributionCenter>> call, Response<List<DistributionCenter>> response) {
+                Log.d("*****API******", response.body().toString());
+                adap = new ArrayAdapter<DistributionCenter>(_this, R.layout.support_simple_spinner_dropdown_item,response.body());
+                origin.setAdapter(adap);
+                destination.setAdapter(adap);
+                if(p!=null) {
+                    for(int x=0; x < adap.getCount(); ++x) {
+                        if(adap.getItem(x).getId()==p.getOrigin().getId()) {
+                            origin.setSelection(x);
+                            break;
+                        }
+                    }
+                    for(int x=0; x < adap.getCount(); ++x) {
+                        if(adap.getItem(x).getId()==p.getDestination().getId()) {
+                            destination.setSelection(x);
+                            break;
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<DistributionCenter>> call, Throwable t) {
+                //TODO create a backup list of Distribution Center
+                Log.d("*****API******", "falhaaaaaa");
+            }
+        });
     }
 }
 

@@ -37,6 +37,7 @@ public class ViewPackagesActivity extends AppCompatActivity {
                 Log.d("CLICK TO EDIT:", p.getRecipient());
                 Intent intent = new Intent(getApplicationContext(), CreateUpdatePackageActivity.class);
                 intent.putExtra("package_id", p.getId());
+                finish();
                 startActivity(intent);
             }
         });
