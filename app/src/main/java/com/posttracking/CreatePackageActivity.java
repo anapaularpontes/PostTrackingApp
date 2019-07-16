@@ -11,8 +11,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.app.ProgressDialog;
 
+import com.posttracking.Boundaries.InvoiceDAO;
 import com.posttracking.Boundaries.LocalConfig;
 import com.posttracking.Boundaries.PackageDAO;
+import com.posttracking.Entities.Invoice;
 import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
 import com.posttracking.api.models.Customer;
@@ -64,7 +66,7 @@ public class CreatePackageActivity extends AppCompatActivity {
 
                 final ProgressDialog progressDialog = new ProgressDialog(CreatePackageActivity.this);
                 progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Creating Package");
+                progressDialog.setMessage("Creating Package and Invoice");
                 progressDialog.show();
 
                 TextView recipient = findViewById(R.id.txtRecipient);
@@ -83,6 +85,15 @@ public class CreatePackageActivity extends AppCompatActivity {
                 PackageDAO pDAO = new PackageDAO(_this);
                 pDAO.createPackage(p);
 
+                //Create invoice
+                Invoice i = new Invoice();
+                //i.setCust_id(p.getCustomer().getId());
+                i.setPack_id(p.getId());
+                i.setAmount(5.67);
+                i.setStatus(1);
+
+                InvoiceDAO iDAO = new InvoiceDAO(_this);
+                iDAO.createInvoice(i);
 
                 new android.os.Handler().postDelayed(
                         new Runnable() {

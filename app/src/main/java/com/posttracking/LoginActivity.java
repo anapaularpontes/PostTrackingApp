@@ -74,11 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.d("email", emailText.getText().toString());
-                Log.d("pass", passwordText.getText().toString());
-
                 boolean loginOK = db.checkLogin(emailText.getText().toString(), passwordText.getText().toString());
-                Log.d("login status", String.valueOf(loginOK));
                 if(loginOK) {
                     Customer c = db.getCustomer(emailText.getText().toString());
                     goHome.putExtra("customerId", c.getCustomer_id());
