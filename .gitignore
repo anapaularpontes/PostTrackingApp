@@ -63,8 +63,8 @@ obj/
 /out/
 
 # User-specific configurations
-.idea/caches/
-.idea/libraries/
+.idea/caches
+.idea/libraries
 .idea/shelf/
 .idea/workspace.xml
 .idea/tasks.xml

@@ -43,11 +43,23 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(sqlCreatePackage);
         Log.d(LOGTAG, "Creating table pack" );
 
+        String sqlCreateInvoice = ("CREATE TABLE invoice (" +
+                " inv_id INTEGER PRIMARY KEY," +
+                " cust_id INT," +
+                " pack_id INT," +
+                " amount DECIMAL," +
+                " status INT DEFAULT 0," +
+                " FOREIGN KEY (cust_id) REFERENCES customer(customer_id), " +
+                " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
+        db.execSQL(sqlCreateInvoice);
+        Log.d(LOGTAG, "Creating table invoice" );
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS customer");
         db.execSQL("DROP TABLE IF EXISTS package");
+        db.execSQL("DROP TABLE IF EXISTS invoice");
     }
 }
