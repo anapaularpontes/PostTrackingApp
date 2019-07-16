@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreatePackageActivity">
+    tools:context=".CreateUpdatePackageActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_darker"
@@ -69,7 +69,7 @@
             android:id="@+id/txtVolume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Volume"
+            android:hint="Volume (cubic decimeter)"
             android:inputType="number|numberDecimal" />
 
     </android.support.design.widget.TextInputLayout>
@@ -82,12 +82,12 @@
             android:id="@+id/txtWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Weight"
+            android:hint="Weight (Kg)"
             android:inputType="number|numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/btnCreate"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create Package" />

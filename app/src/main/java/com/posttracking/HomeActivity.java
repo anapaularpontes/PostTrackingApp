@@ -2,7 +2,6 @@ package com.posttracking;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +37,7 @@ public class HomeActivity extends ListActivity {
                 Log.d("Menu Item", "Packages");
                 break;
             case 1:
-                menuItem = new Intent(this, CreatePackageActivity.class);
+                menuItem = new Intent(this, CreateUpdatePackageActivity.class);
                 Log.d("Menu Item", "Create Package");
                 break;
             case 2:
