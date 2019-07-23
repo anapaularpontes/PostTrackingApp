@@ -6,7 +6,7 @@ public class Invoice {
     int pack_id = 0;
     int quote_id = 0;
     double amount = 0;
-    int status = 0;
+    String status = "";
 
     public int getInvoice_id() {
         return invoice_id;
@@ -44,11 +44,11 @@ public class Invoice {
 
     public void setAmount(double amount) { this.amount = amount; }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

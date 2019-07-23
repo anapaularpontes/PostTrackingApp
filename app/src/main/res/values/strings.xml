@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Postal Tracking App</string>
     <string name="hello_world">Hello world!</string>
+
+    <string-array name="invoicePayment_options">
+        <item>Not paid</item>
+        <item>Paid</item>
+        <item>Cancelled</item>
+    </string-array>
+
 </resources>
