@@ -53,7 +53,7 @@ public class PackageDAO extends Database {
         return db.insert("package", null, cv);
     }
 
-    public void updatePackage(Package p) {
+    public int updatePackage(Package p) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("recipient", p.getRecipient());
@@ -62,7 +62,12 @@ public class PackageDAO extends Database {
         cv.put("volume", p.getVolume());
         cv.put("origin", p.getOrigin().getId());
         cv.put("destination", p.getDestination().getId());
-        db.update("package", cv, " pack_id = ?", new String[] {String.valueOf(p.getId())});
+        return db.update("package", cv, " pack_id = ?", new String[] {String.valueOf(p.getId())});
+    }
+
+    public int deletePackage(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("package", "pack_id = ?", new String[] {String.valueOf(id)});
     }
 
     public Package getPackage(int id) {

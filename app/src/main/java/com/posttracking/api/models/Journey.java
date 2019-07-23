@@ -1,11 +1,21 @@
 package com.posttracking.api.models;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Journey {
   protected int id;
+  protected Vehicle vehicle;
+  protected DistributionCenter origin;
+  protected DistributionCenter destination;
+  private Set<Package> packages = new HashSet<Package>();
+  protected Timestamp start;
+  protected int duration;
+  protected boolean available;
+  protected long restart;
+
 
   public int getId() {
     return id;
@@ -13,6 +23,10 @@ public class Journey {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public Timestamp getArrival() {
+    return new Timestamp(this.start.getTime() + this.duration);
   }
 
   public Vehicle getVehicle() {
@@ -79,12 +93,17 @@ public class Journey {
     this.restart = restart;
   }
 
-  protected Vehicle vehicle;
-  protected DistributionCenter origin;
-  protected DistributionCenter destination;
-  private Set<Package> packages = new HashSet<Package>();
-  protected Timestamp start;
-  protected int duration;
-  protected boolean available;
-  protected long restart;
+  private String formatDate(Timestamp d) {
+    SimpleDateFormat sdf = new SimpleDateFormat("E d-MMMM-YY");
+    return sdf.format(d);
+  }
+
+  public String getStartFormated() {
+    return formatDate(this.start);
+  }
+
+  public String getArrivalFormated() {
+    return formatDate(getArrival());
+  }
+
 }

@@ -1,5 +1,6 @@
 package com.posttracking;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.posttracking.api.RetrofitClient;
 import com.posttracking.api.models.DistributionCenter;
 import com.posttracking.api.models.Package;
 
+import java.nio.file.Files;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,8 +42,10 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
 
         origin = findViewById(R.id.origin);
         destination = findViewById(R.id.destination);
-        Button savePackage = findViewById(R.id.btnSave);
 
+        Button savePackage = findViewById(R.id.btnSave);
+        Button deletePackage = findViewById(R.id.btnDelete);
+        Button getQuotation = findViewById(R.id.btnGetQuotation);
         final TextView recipient = findViewById(R.id.txtRecipient);
         final TextView address = findViewById(R.id.txtAddress);
         final TextView volume = findViewById(R.id.txtVolume);
@@ -56,6 +60,8 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
         if(package_id==0) { //Creating a new Project
 
             updateSpinners(null);
+            deletePackage.setVisibility(View.GONE);
+            getQuotation.setVisibility(View.GONE);
 
             savePackage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,9 +115,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     progressDialog.setMessage("Updating Package");
-
                     try {
-
                         p.setRecipient((recipient.getText().toString().length()==0?"Unknown":
                                 recipient.getText().toString()));
                         p.setAddress(address.getText().toString());
@@ -136,6 +140,22 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                         Toast t = Toast.makeText(getApplicationContext(), "Please, review your fields", Toast.LENGTH_SHORT);
                         t.show();
                     }
+                }
+            });
+
+            deletePackage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pDAO.deletePackage(p.getId());
+                }
+            });
+
+            getQuotation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), ViewQuotationActivity.class);
+                    intent.putExtra("package_id", p.getId());
+                    startActivity(intent);
                 }
             });
         }
@@ -169,9 +189,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                             break;
                         }
                     }
-
                 }
-
             }
 
             @Override

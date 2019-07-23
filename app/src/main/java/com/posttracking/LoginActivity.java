@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ArrayAdapter adap;
         if (customers.size() == 0) {
-            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved,\nPlease Sign Up or Log In"});
+            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved,\nPlease Sign Up"});
         } else {
             adap = new ArrayAdapter<Customer>(this, R.layout.login_list_view, customers);
 
