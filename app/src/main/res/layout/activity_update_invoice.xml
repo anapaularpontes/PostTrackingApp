@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UpdateInvoiceActivity">
+
+    <TextView
+        android:id="@+id/txtTitle3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_darker"
+        android:gravity="center_horizontal"
+        android:text="Invoice"
+        android:textSize="30sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtInvID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Invoice ID" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtPackageID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Package ID" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Amount" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:editable="false"
+        android:text="Payment Status" />
+
+    <Spinner
+        android:id="@+id/spPaymStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Status" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Update Invoice" />
+
+</LinearLayout>

@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme.Dark"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ViewQuotationActivity"></activity>
+        <activity android:name=".UpdateInvoiceActivity"></activity>
+        <activity android:name=".ViewQuotationActivity" />
         <activity android:name=".ViewInvoicesActivity" />
         <activity android:name=".ViewPackagesActivity" />
         <activity android:name=".CreateUpdatePackageActivity" />
