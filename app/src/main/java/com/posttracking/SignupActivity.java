@@ -41,7 +41,8 @@ public class SignupActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+                if(validate())
+                    signup();
             }
         });
     }
@@ -105,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-    /*
+
     public boolean validate() {
         boolean valid = true;
 
@@ -116,35 +117,35 @@ public class SignupActivity extends AppCompatActivity {
         String reEnterPassword = reEnterPasswordText.getText().toString();
 
         if (fName.isEmpty() || fName.length() < 3) {
-            firstNameText.setError("at least 3 characters");
+            firstNameText.setError("Please type at least 3 characters");
             valid = false;
         } else {
             firstNameText.setError(null);
         }
 
         if (lName.isEmpty() || lName.length() < 3) {
-            lastNameText.setError("at least 3 characters");
+            lastNameText.setError("Please type at least 3 characters");
             valid = false;
         } else {
             lastNameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("enter a valid email address");
+            emailText.setError("Please enter a valid email address");
             valid = false;
         } else {
             emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordText.setError("between 4 and 10 alphanumeric characters");
+            passwordText.setError("Please type a password between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            reEnterPasswordText.setError("Password Do not match");
+        if (!(reEnterPassword.equals(password))) {
+            reEnterPasswordText.setError("Password do not match");
             valid = false;
         } else {
             reEnterPasswordText.setError(null);
@@ -152,5 +153,5 @@ public class SignupActivity extends AppCompatActivity {
 
         return valid;
     }
-    */
+
 }
