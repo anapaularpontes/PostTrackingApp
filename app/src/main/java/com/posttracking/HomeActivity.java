@@ -17,6 +17,7 @@ import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,19 +39,21 @@ public class HomeActivity extends ListActivity {
 
         customerId = getIntent().getIntExtra("customerId",0);
         if(customerId!=0) {
-            CustomerDAO cDAO = new CustomerDAO(this);
-            Customer c = cDAO.getCustomer(customerId);
-            if(c.getApiID()==0) {
+            final CustomerDAO cDAO = new CustomerDAO(this);
+            final Customer localCustomer = cDAO.getCustomer(customerId);
+            if(localCustomer.getApiID()==0) {
                 PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
 
-                Call<List<Customer>> call = postTrackingAPI.getCustomerByEmail(c.getEmailAddress());
+                Call<List<Customer>> call = postTrackingAPI.getCustomerByEmail(localCustomer.getEmailAddress());
                 call.enqueue(new Callback<List<Customer>>() {
                     @Override
                     public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
-                        if(response.body().isEmpty()) {
+                        if(true) {
                             Log.d("****API", "Create new");
                         } else {
-                            Log.d("****API", response.body().get(0).getId()+"");
+                            //Log.d("****API", response.body().get(0).getId()+"");
+                            localCustomer.setApiID(response.body().get(0).getId());
+                            cDAO.updateCustomer(localCustomer);
                         }
                     }
 

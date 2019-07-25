@@ -1,13 +1,17 @@
 package com.posttracking.api;
 
+import com.posttracking.Entities.Customer;
 import com.posttracking.api.models.DistributionCenter;
 import com.posttracking.api.models.RetroUsers;
-import com.posttracking.api.models.Vehicle;
+
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface PostTrackingAPI {
@@ -23,4 +27,9 @@ public interface PostTrackingAPI {
 
   @GET("api/customerbymail/{email}")
   Call<List<com.posttracking.Entities.Customer>> getCustomerByEmail(@Path("email") String email);
+
+  @FormUrlEncoded
+  @POST("/api/customers")
+  Customer createCustomer(@Field("firstName") String firstName,@Field("lastName") String lastName,
+                                @Field("emailAddress") String emailAddress);
 }
