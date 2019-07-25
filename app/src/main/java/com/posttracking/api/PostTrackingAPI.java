@@ -12,13 +12,6 @@ import retrofit2.http.Path;
 
 public interface PostTrackingAPI {
 
-  //TESTS
-  @GET("/users")
-  Call<List<RetroUsers>> getAllUsers();
-
-  @GET("api/vehicles")
-  Call<List<Vehicle>> getAllVehicles();
-
   //Get DistributionCenters
   @GET("api/dcs")
   Call<List<DistributionCenter>> getAllDistributionCenter();
@@ -27,4 +20,7 @@ public interface PostTrackingAPI {
   @GET("packages/seekpath/{origin}/{destination}/{weight_s}/{volume_s}")
   Call<List<com.posttracking.api.models.Path>> getQuotation(@Path("origin") String origin,
           @Path("destination") String destination,@Path("weight_s") String weight_s,@Path("volume_s") String volume_s);
+
+  @GET("api/customerbymail/{email}")
+  Call<List<com.posttracking.Entities.Customer>> getCustomerByEmail(@Path("email") String email);
 }

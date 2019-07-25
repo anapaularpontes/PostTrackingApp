@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Customer c = customers.get(position);
-                    emailText.setText(c.getEmail());
+                    emailText.setText(c.getEmailAddress());
                     passwordText.requestFocus();
                 }
             });
@@ -77,10 +77,9 @@ public class LoginActivity extends AppCompatActivity {
                 boolean loginOK = db.checkLogin(emailText.getText().toString(), passwordText.getText().toString());
                 if(loginOK) {
                     Customer c = db.getCustomer(emailText.getText().toString());
-                    goHome.putExtra("customerId", c.getCustomer_id());
+                    goHome.putExtra("customerId", c.getId());
                     startActivity(goHome);
                     finish();
-                    Log.d("Click!!!!", c.getFirstName());
 
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(),"Wrong email and/or password.",Toast.LENGTH_LONG);

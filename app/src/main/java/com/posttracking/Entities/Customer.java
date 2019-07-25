@@ -1,18 +1,19 @@
 package com.posttracking.Entities;
 
 public class Customer {
-    int customer_id = 0;
+    int id = 0;
     String firstName = "";
     String lastName = "";
-    String email = "";
+    String emailAddress = "";
     String password = "";
+    int apiID = 0;
 
-    public int getCustomer_id() {
-        return customer_id;
+    public int getId() {
+        return id;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setId(int customer_id) {
+        this.id = customer_id;
     }
 
     public String getFirstName() {
@@ -23,12 +24,12 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAddress(String email) {
+        this.emailAddress = email;
     }
 
     public String getPassword() {
@@ -47,8 +48,14 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public void setApiID(int apiID) {
+        this.apiID = apiID;
+    }
+    public int getApiID() {
+        return this.apiID;
+    }
     @Override
     public String toString() {
-        return "("+getEmail()+")\n"+getFirstName() + " " + getLastName();
+        return "("+getEmailAddress()+")\n"+getFirstName() + " " + getLastName();
     }
 }

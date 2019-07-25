@@ -89,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
             Customer cust = new Customer();
             cust.setFirstName(fName);
             cust.setLastName(lName);
-            cust.setEmail(email);
+            cust.setEmailAddress(email);
             cust.setPassword(password);
             custDAO.addCustomer(cust);
 

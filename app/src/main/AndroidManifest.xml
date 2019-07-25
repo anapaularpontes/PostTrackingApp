@@ -17,7 +17,6 @@
         <activity android:name=".ViewPackagesActivity" />
         <activity android:name=".CreateUpdatePackageActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".Z_ShowVehiclesTest" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

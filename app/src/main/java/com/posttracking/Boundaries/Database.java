@@ -19,7 +19,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sqlCreateCustomer = ("CREATE TABLE customer (" +
-                " customer_id INTEGER PRIMARY KEY," +
+                " id INTEGER PRIMARY KEY," +
                 " firstName TEXT," +
                 " lastName TEXT," +
                 " emailAddress TEXT," +
