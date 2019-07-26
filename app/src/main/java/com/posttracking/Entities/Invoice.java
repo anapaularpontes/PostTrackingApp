@@ -4,9 +4,13 @@ public class Invoice {
     int invoice_id = 0;
     int cust_id = 0;
     int pack_id = 0;
-    int deliveryTime = 0;
-    double amount = 0;
+    double deliveryTime = 0.0;
+    double amount = 0.0;
     int status = 0;
+
+    public Invoice() {}
+
+
 
     public int getInvoice_id() {
         return invoice_id;
@@ -29,20 +33,26 @@ public class Invoice {
     }
 
     public void setPack_id(int invoice_id) {
-        this.pack_id = pack_id;
+        this.pack_id = invoice_id;
     }
 
-    public int getDeliveryTime() {
+    public double getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(int deliveryTime) { this.deliveryTime = deliveryTime; }
+    public void setDeliveryTime(double deliveryTime) { this.deliveryTime = deliveryTime; }
 
     public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) { this.amount = amount; }
+    public void generateAmount(double weight, double volume) {
+        this.amount = ((weight * 0.9) + (volume * 0.8)) *  (1.0 / (double) this.deliveryTime);
+    }
+
+    public void setAmount(double amt) {
+        this.amount = amt;
+    }
 
     public int getStatus() {
         return status;

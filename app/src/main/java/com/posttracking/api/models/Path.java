@@ -21,8 +21,9 @@ public class Path {
     return position;
   }
 
-  public double getNOfDays(long delivery) {
+  public double getNOfDays() {
     long now = System.currentTimeMillis();
+    long delivery = getJourneys().get(getJourneys().size()-1).getArrival().getTime();
     return Math.ceil((delivery - now) / (86400000.00));
   }
 
@@ -35,8 +36,7 @@ public class Path {
     //sb.append(String.format("%-12s%15s\n","Start Time: ",getJourneys().get(0).getStartFormated()));
 
     sb.append(String.format("%-20s%14s\n","Est. Delivery Days: ",
-            getNOfDays(getJourneys().get(getJourneys().size()-1).getArrival().getTime())));
-    sb.append("\n");
+            getNOfDays()));
     return sb.toString();
   }
 }
