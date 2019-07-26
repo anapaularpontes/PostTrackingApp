@@ -4,9 +4,9 @@ public class Invoice {
     int invoice_id = 0;
     int cust_id = 0;
     int pack_id = 0;
-    int quote_id = 0;
+    int deliveryTime = 0;
     double amount = 0;
-    String status = "";
+    int status = 0;
 
     public int getInvoice_id() {
         return invoice_id;
@@ -32,11 +32,11 @@ public class Invoice {
         this.pack_id = pack_id;
     }
 
-    public int getQuote_id() {
-        return quote_id;
+    public int getDeliveryTime() {
+        return deliveryTime;
     }
 
-    public void setQuote_id(int quote_id) { this.quote_id = quote_id; }
+    public void setDeliveryTime(int deliveryTime) { this.deliveryTime = deliveryTime; }
 
     public double getAmount() {
         return amount;
@@ -44,11 +44,11 @@ public class Invoice {
 
     public void setAmount(double amount) { this.amount = amount; }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

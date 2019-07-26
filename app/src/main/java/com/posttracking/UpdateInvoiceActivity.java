@@ -28,15 +28,23 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
 
         final TextView inv_id = (TextView) findViewById(R.id.txtInvID);
         final TextView pack_id = (TextView) findViewById(R.id.txtPackageID);
+        final TextView deliveryTime = (TextView) findViewById(R.id.txtTime);
         final TextView amount = (TextView) findViewById(R.id.txtAmount);
         Button btnUpdate = (Button) findViewById(R.id.btnUpdate);
 
 
         InvoiceDAO iDAO = new InvoiceDAO(this);
-
         final Invoice i = iDAO.getInvoice(invoice_id);
+
+        String comp = "";
+        if(i.getDeliveryTime() > 1)
+            comp = " days";
+        else
+            comp = " day";
+
         inv_id.setText(String.valueOf(i.getInvoice_id()));
         pack_id.setText(String.valueOf(i.getPack_id()));
+        deliveryTime.setText(String.valueOf(i.getDeliveryTime()) + comp);
         amount.setText(formatter.format(i.getAmount()));
 
         final Spinner spinner = (Spinner) findViewById(R.id.spPaymStatus);
@@ -44,30 +52,17 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
                 R.array.invoicePayment_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(i.getStatus());
 
-        switch(i.getStatus())
-        {
-            case "Not paid":
-                spinner.setSelection(0);
-                break;
-            case "Paid":
-                spinner.setSelection(1);
-                break;
-            case "Cancelled":
-                spinner.setSelection(2);
-                break;
-        }
-
-
-        packStatus(spinner.getSelectedItem().toString());
+        packStatus(spinner.getSelectedItemPosition());
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                packStatus(spinner.getSelectedItem().toString());
+                packStatus(spinner.getSelectedItemPosition());
 
                 try{
-                    i.setStatus(spinner.getSelectedItem().toString());
+                    i.setStatus(spinner.getSelectedItemPosition());
                 } catch (Exception e) {
                     Toast t = Toast.makeText(getApplicationContext(), "Please, review your fields", Toast.LENGTH_SHORT);
                     t.show();
@@ -76,16 +71,16 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
         });
     }
 
-    public void packStatus(String statusPack)
+    public void packStatus(int statusPack)
     {
         switch(statusPack) {
-            case "Not paid":
+            case 0:
                 status.setText("Awaiting payment");
                 break;
-            case "Paid":
+            case 1:
                 status.setText("Ready to send");
                 break;
-            case "Cancelled":
+            case 2:
                 status.setText("Cancelled");
                 break;
         }
