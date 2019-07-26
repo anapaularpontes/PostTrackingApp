@@ -52,7 +52,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Path>> call, Response<List<Path>> response) {
                 if(response.body().isEmpty()) {
-                    adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view, new String[] {"We couldn't find an Path to Deliver Your Package"});
+                    adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view,
+                            new String[] {"We couldn't find an Path to Deliver Your Package"});
                 } else {
                     adap = new ArrayAdapter<Path>(_this, R.layout.quotation_list_view, response.body());
                 }
@@ -61,7 +62,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Path>> call, Throwable t) {
-                adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view, new String[] {"We couldn't connect to the API"});
+                adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view,
+                        new String[] {"We couldn't connect to the API"});
                 lv.setAdapter(adap);
             }
 
@@ -69,7 +71,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
 
         // Mudar para pegar Path e Transformar em uma Invoice
         //QuotationDAO qDAO = new QuotationDAO(this);
-        //final ArrayAdapter<Quotation> adap = new ArrayAdapter<Quotation>(this, R.layout.quotation_list_view, qDAO.getQuotations(LocalConfig.packageId));
+        //final ArrayAdapter<Quotation> adap = new ArrayAdapter<Quotation>(this,
+        //    R.layout.quotation_list_view, qDAO.getQuotations(LocalConfig.packageId));
         //lv.setAdapter(adap);
 
 
@@ -85,7 +88,7 @@ public class ViewQuotationActivity extends AppCompatActivity {
                 i.setPack_id(LocalConfig.packageId);
                 //i.setQuote_id(q.getQuote_id());
                 //i.setAmount(q.getAmount());
-                i.setStatus("1");
+                i.setStatus(1);
 
                 iDAO.createInvoice(i);
             }

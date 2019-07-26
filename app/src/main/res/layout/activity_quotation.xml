@@ -16,6 +16,10 @@
         android:text="Quotation"
         android:textSize="30sp" />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ListView
         android:id="@+id/lvQuotation"
         android:layout_width="match_parent"

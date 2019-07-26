@@ -91,7 +91,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                                 }, 1500);
 
                     } catch (Exception e) {
-                        Toast t = Toast.makeText(getApplicationContext(), "Please, review your fields", Toast.LENGTH_SHORT);
+                        Toast t = Toast.makeText(getApplicationContext(), "Please, review your fields", Toast.LENGTH_LONG);
                         t.show();
                     }
                 }

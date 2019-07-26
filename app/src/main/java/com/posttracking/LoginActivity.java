@@ -43,13 +43,21 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ListView lv = findViewById(R.id.lvLogins);
 
+        emailText = findViewById(R.id.input_email);
+        passwordText = findViewById(R.id.input_password);
+        loginButton = findViewById(R.id.btn_login);
+        signUpLink = findViewById(R.id.link_signup);
+
         db = new CustomerDAO(this);
         final ArrayList<Customer> customers = db.getAllCustomers();
         final Intent goHome = new Intent(this,HomeActivity.class);
 
         ArrayAdapter adap;
         if (customers.size() == 0) {
-            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved,\nPlease Sign Up"});
+            adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved.\nPlease Sign Up"});
+            loginButton.setVisibility(View.GONE);
+            emailText.setVisibility(View.GONE);
+            passwordText.setVisibility(View.GONE);
         } else {
             adap = new ArrayAdapter<Customer>(this, R.layout.login_list_view, customers);
 
@@ -64,11 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         lv.setAdapter(adap);
-
-        emailText = (EditText) findViewById(R.id.input_email);
-        passwordText = (EditText) findViewById(R.id.input_password);
-        loginButton = (Button) findViewById(R.id.btn_login);
-        signUpLink = (Button) findViewById(R.id.link_signup);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

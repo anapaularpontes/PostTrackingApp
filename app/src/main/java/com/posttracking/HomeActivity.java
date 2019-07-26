@@ -56,6 +56,9 @@ public class HomeActivity extends ListActivity {
                                     if(response.body() instanceof Customer) {
                                         localCustomer.setApiID(response.body().getId());
                                         cDAO.updateCustomer(localCustomer);
+                                    } else {
+                                        Log.d("***API","Fail Creating Customer");
+                                        Log.d("***API",response.body()+"");
                                     }
                                 }
 
