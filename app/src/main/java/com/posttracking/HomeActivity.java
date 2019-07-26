@@ -10,14 +10,12 @@ import android.widget.ListView;
 
 
 import com.posttracking.Boundaries.CustomerDAO;
-import com.posttracking.Boundaries.Database;
 import com.posttracking.Boundaries.LocalConfig;
 import com.posttracking.Entities.Customer;
 import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
 
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,8 +23,6 @@ import retrofit2.Response;
 
 public class HomeActivity extends ListActivity {
 
-    private Database db;
-    private Intent menu;
     private int customerId;
     Intent menuItem;
     final String[] menuItems = new String[] {"Packages", "Create Package", "Invoices"};
@@ -42,16 +38,35 @@ public class HomeActivity extends ListActivity {
             final CustomerDAO cDAO = new CustomerDAO(this);
             final Customer localCustomer = cDAO.getCustomer(customerId);
             if(localCustomer.getApiID()==0) {
-                PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
+                final PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
 
-                Call<List<Customer>> call = postTrackingAPI.getCustomerByEmail(localCustomer.getEmailAddress());
-                call.enqueue(new Callback<List<Customer>>() {
+                Call<List<Customer>> callCustomers = postTrackingAPI.getCustomerByEmail(localCustomer.getEmailAddress());
+                callCustomers.enqueue(new Callback<List<Customer>>() {
                     @Override
                     public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
-                        if(true) {
-                            Log.d("****API", "Create new");
+                        if(response.body().size()==0) {
+                            Log.d("****API", "Create new Customer on API");
+                            Call<Customer> newCustomer = postTrackingAPI.createCustomer(
+                                    localCustomer.getFirstName(),
+                                    localCustomer.getLastName(),
+                                    localCustomer.getEmailAddress());
+                            newCustomer.enqueue(new Callback<Customer>() {
+                                @Override
+                                public void onResponse(Call<Customer> call, Response<Customer> response) {
+                                    if(response.body() instanceof Customer) {
+                                        localCustomer.setApiID(response.body().getId());
+                                        cDAO.updateCustomer(localCustomer);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Customer> call, Throwable t) {
+                                    Log.d("**Fail***", "unable to access the API (Create Customer)");
+                                }
+                            });
+
                         } else {
-                            //Log.d("****API", response.body().get(0).getId()+"");
+                            Log.d("****API", response.body().get(0).getId()+"");
                             localCustomer.setApiID(response.body().get(0).getId());
                             cDAO.updateCustomer(localCustomer);
                         }
@@ -59,11 +74,12 @@ public class HomeActivity extends ListActivity {
 
                     @Override
                     public void onFailure(Call<List<Customer>> call, Throwable t) {
-                        Log.d("**Fail***", "unable to access the API");
+                        Log.d("**Fail***", "unable to access the API (Load Customer)");
                     }
                 });
 
             }
+            LocalConfig.customerApiId = localCustomer.getApiID();
         }
 
     }

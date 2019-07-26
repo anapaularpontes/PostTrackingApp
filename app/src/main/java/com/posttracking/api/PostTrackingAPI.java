@@ -26,10 +26,10 @@ public interface PostTrackingAPI {
           @Path("destination") String destination,@Path("weight_s") String weight_s,@Path("volume_s") String volume_s);
 
   @GET("api/customerbymail/{email}")
-  Call<List<com.posttracking.Entities.Customer>> getCustomerByEmail(@Path("email") String email);
+  Call<List<Customer>> getCustomerByEmail(@Path("email") String email);
 
   @FormUrlEncoded
   @POST("/api/customers")
-  Customer createCustomer(@Field("firstName") String firstName,@Field("lastName") String lastName,
+  Call<Customer> createCustomer(@Field("firstName") String firstName,@Field("lastName") String lastName,
                                 @Field("emailAddress") String emailAddress);
 }

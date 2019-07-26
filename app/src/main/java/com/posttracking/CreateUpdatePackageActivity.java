@@ -69,7 +69,6 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                     progressDialog.setMessage("Creating Package");
 
                     try {
-
                         Package p = new Package();
                         p.setRecipient((recipient.getText().toString().length()==0?"Unknown":
                                 recipient.getText().toString()));
@@ -195,7 +194,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<DistributionCenter>> call, Throwable t) {
                 //TODO create a backup list of Distribution Center
-                Log.d("*****API******", "falhaaaaaa");
+                Log.d("*****API******", "Fail updating Spinners");
             }
         });
     }

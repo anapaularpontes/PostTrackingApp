@@ -2,7 +2,6 @@ package com.posttracking;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,7 +10,6 @@ import android.widget.ListView;
 import com.posttracking.Boundaries.InvoiceDAO;
 import com.posttracking.Boundaries.LocalConfig;
 import com.posttracking.Boundaries.PackageDAO;
-import com.posttracking.Boundaries.QuotationDAO;
 import com.posttracking.Entities.Invoice;
 import com.posttracking.Entities.Quotation;
 import com.posttracking.api.PostTrackingAPI;
@@ -54,7 +52,7 @@ public class ViewQuotationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Path>> call, Response<List<Path>> response) {
                 if(response.body().isEmpty()) {
-                    adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view, new String[] {"We couldn't find an Path"});
+                    adap = new ArrayAdapter<String>(_this, R.layout.quotation_list_view, new String[] {"We couldn't find an Path to Deliver Your Package"});
                 } else {
                     adap = new ArrayAdapter<Path>(_this, R.layout.quotation_list_view, response.body());
                 }
@@ -70,9 +68,9 @@ public class ViewQuotationActivity extends AppCompatActivity {
         });
 
         // Mudar para pegar Path e Transformar em uma Invoice
-        QuotationDAO qDAO = new QuotationDAO(this);
-        final ArrayAdapter<Quotation> adap = new ArrayAdapter<Quotation>(this, R.layout.quotation_list_view, qDAO.getQuotations(LocalConfig.packageId));
-        lv.setAdapter(adap);
+        //QuotationDAO qDAO = new QuotationDAO(this);
+        //final ArrayAdapter<Quotation> adap = new ArrayAdapter<Quotation>(this, R.layout.quotation_list_view, qDAO.getQuotations(LocalConfig.packageId));
+        //lv.setAdapter(adap);
 
 
         Button btnGenerate = (Button) findViewById(R.id.btnGenerate);
@@ -80,13 +78,13 @@ public class ViewQuotationActivity extends AppCompatActivity {
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Quotation q = adap.getItem(lv.getSelectedItemPosition());
+                //Quotation q = adap.getItem(lv.getSelectedItemPosition());
 
                 Invoice i = new Invoice();
                 i.setCust_id(LocalConfig.customerId);
                 i.setPack_id(LocalConfig.packageId);
-                i.setQuote_id(q.getQuote_id());
-                i.setAmount(q.getAmount());
+                //i.setQuote_id(q.getQuote_id());
+                //i.setAmount(q.getAmount());
                 i.setStatus("1");
 
                 iDAO.createInvoice(i);

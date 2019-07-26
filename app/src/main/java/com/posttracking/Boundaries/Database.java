@@ -43,24 +43,15 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(sqlCreatePackage);
         Log.d(LOGTAG, "Creating table pack" );
 
-        String sqlCreateQuotation = ("CREATE TABLE quotation (" +
-                " quote_id INTEGER PRIMARY KEY," +
-                " pack_id INT," +
-                " deliveryTime INT," +
-                " amount DECIMAL," +
-                " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
-        db.execSQL(sqlCreateQuotation);
-        Log.d(LOGTAG, "Creating table quotation" );
-
         String sqlCreateInvoice = ("CREATE TABLE invoice (" +
                 " inv_id INTEGER PRIMARY KEY," +
                 " cust_id INT," +
                 " pack_id INT," +
-                " quote_id INT," +
+                " deliveryTime INT," +
+                " amount DECIMAL," +
                 " status INT DEFAULT 0," +
                 " FOREIGN KEY (cust_id) REFERENCES customer(customer_id), " +
-                " FOREIGN KEY (pack_id) REFERENCES package (pack_id)," +
-                " FOREIGN KEY (quote_id) REFERENCES quotation (quote_id))");
+                " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
         db.execSQL(sqlCreateInvoice);
         Log.d(LOGTAG, "Creating table invoice" );
 
@@ -70,7 +61,6 @@ public class Database extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS customer");
         db.execSQL("DROP TABLE IF EXISTS package");
-        db.execSQL("DROP TABLE IF EXISTS quotation");
         db.execSQL("DROP TABLE IF EXISTS invoice");
     }
 }
