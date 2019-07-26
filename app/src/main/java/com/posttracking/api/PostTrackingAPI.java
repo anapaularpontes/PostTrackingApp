@@ -2,7 +2,6 @@ package com.posttracking.api;
 
 import com.posttracking.Entities.Customer;
 import com.posttracking.api.models.DistributionCenter;
-import com.posttracking.api.models.RetroUsers;
 
 
 import java.util.List;
@@ -32,4 +31,14 @@ public interface PostTrackingAPI {
   @POST("/api/customers")
   Call<Customer> createCustomer(@Field("firstName") String firstName,@Field("lastName") String lastName,
                                 @Field("emailAddress") String emailAddress);
+
+  @FormUrlEncoded
+  @POST("/api/packages")
+  Call<com.posttracking.api.models.Package> createPackage(
+          @Field("customer") String customer,@Field("origin") String origin,
+          @Field("destination") String destination,@Field("journeys") String journeys,
+          @Field("weight") String weight,@Field("volume") String volume,
+          @Field("recipient") String recipient,@Field("address") String address,
+          @Field("city") String city,@Field("province") String province,
+          @Field("zipCode") String zipCode);
 }

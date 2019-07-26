@@ -37,6 +37,7 @@ public class InvoiceDAO extends Database {
                 list.add(i);
             } while(cursor.moveToNext());
         }
+        db.close();
         return list;
     }
 
@@ -48,7 +49,9 @@ public class InvoiceDAO extends Database {
         cv.put("deliveryTime", i.getDeliveryTime());
         cv.put("amount", i.getAmount());
         cv.put("status", 0);
-        return db.insert("invoice", null, cv);
+        long id = db.insert("invoice", null, cv);
+        db.close();
+        return id;
     }
 
     public Invoice getInvoice(int invoiceID) {
@@ -65,6 +68,7 @@ public class InvoiceDAO extends Database {
             i.setAmount(cursor.getDouble(3));
             i.setStatus(cursor.getInt(4));
         }
+        db.close();
         return i;
     }
 }

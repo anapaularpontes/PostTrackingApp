@@ -24,7 +24,7 @@ public class PackageDAO extends Database {
         List<Package> list = new ArrayList<Package>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " +
-                        "pack_id, recipient, address,weight,volume,origin,destination,customer" +
+                        "pack_id, recipient, address,weight,volume,origin,destination,customer,apiID" +
                         " from package where customer = ?",
                 new String[] {String.valueOf(customerID)});
         DistributionCenter origin = new DistributionCenter();
@@ -62,18 +62,23 @@ public class PackageDAO extends Database {
         cv.put("volume", p.getVolume());
         cv.put("origin", p.getOrigin().getId());
         cv.put("destination", p.getDestination().getId());
-        return db.update("package", cv, " pack_id = ?", new String[] {String.valueOf(p.getId())});
+        cv.put("apiID", p.getApiId());
+        int i = db.update("package", cv, " pack_id = ?", new String[] {String.valueOf(p.getId())});
+        db.close();
+        return i;
     }
 
     public int deletePackage(int id) {
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete("package", "pack_id = ?", new String[] {String.valueOf(id)});
+        int i = db.delete("package", "pack_id = ?", new String[] {String.valueOf(id)});
+        db.close();
+        return i;
     }
 
     public Package getPackage(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " +
-                        "pack_id, recipient, address,weight,volume,origin,destination,customer" +
+                        "pack_id, recipient, address,weight,volume,origin,destination,customer,apiID" +
                         " from package where pack_id = ?",
                 new String[] {String.valueOf(id)});
         Package p = new Package();
@@ -81,6 +86,7 @@ public class PackageDAO extends Database {
         if(cursor.moveToFirst()) {
             fillPackage(cursor,p);
         }
+        db.close();
         return p;
     }
 
@@ -100,6 +106,7 @@ public class PackageDAO extends Database {
         p.setDestination(destination);
         c.setId(cursor.getInt(7));
         p.setCustomer(c);
+        p.setApiId(cursor.getInt(8));
 
     }
 }

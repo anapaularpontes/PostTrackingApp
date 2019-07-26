@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.posttracking.Boundaries.InvoiceDAO;
 import com.posttracking.Boundaries.LocalConfig;
@@ -21,6 +22,7 @@ import com.posttracking.Entities.Invoice;
 import com.posttracking.Entities.Quotation;
 import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
+import com.posttracking.api.models.Journey;
 import com.posttracking.api.models.Package;
 import com.posttracking.api.models.Path;
 
@@ -32,7 +34,8 @@ import retrofit2.Response;
 
 public class ViewQuotationActivity extends AppCompatActivity {
 
-     InvoiceDAO iDAO = new InvoiceDAO(this);
+     final InvoiceDAO iDAO = new InvoiceDAO(this);
+     final PackageDAO pDAO = new PackageDAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +57,9 @@ public class ViewQuotationActivity extends AppCompatActivity {
             finish();
         }
 
-        PackageDAO pDAO = new PackageDAO(this);
         final Package p = pDAO.getPackage(package_id);
 
-        PostTrackingAPI api = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
+        final PostTrackingAPI api = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
         Call<List<Path>> call = api.getQuotation(String.valueOf(p.getOrigin().getId()),
                 String.valueOf(p.getDestination().getId()),String.valueOf(p.getWeight()),
                 String.valueOf(p.getVolume()));
@@ -100,7 +102,43 @@ public class ViewQuotationActivity extends AppCompatActivity {
         btnGenerateInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                List<Journey> journeys = paths.get(rg.getCheckedRadioButtonId()).getJourneys();
+                String journeys_st = "";
+                for(Journey j : journeys) {
+                    journeys_st += j.getId()+",";
+                    Log.d("JOURNEYS", j.getId()+"");
+
+                }
+                Log.d("JOURNEYS", journeys_st.substring(0,journeys_st.length()-1));
+                Call<com.posttracking.api.models.Package> persistPackage = api.createPackage(
+                        String.valueOf(LocalConfig.customerApiId),
+                        String.valueOf(p.getOrigin().getId()),
+                        String.valueOf(p.getDestination().getId()),
+                        // (-1) Get ride of last comma
+                        journeys_st.substring(0,journeys_st.length()-1),
+                        String.valueOf(p.getWeight()),
+                        String.valueOf(p.getVolume()),
+                        p.getRecipient(),
+                        p.getAddress(),
+                        p.getCity(),
+                        p.getProvince(),
+                        p.getZipCode());
+                persistPackage.enqueue(new Callback<Package>() {
+                    @Override
+                    public void onResponse(Call<Package> call, Response<Package> response) {
+                        // The answer ID is the ID on API
+                        p.setApiId(response.body().getId());
+                        pDAO.updatePackage(p);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Package> call, Throwable t) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                            "unable to persist the Package. Please try again later", Toast.LENGTH_LONG);
+                        toast.show();
+
+                    }
+                });
             }
         });
     }

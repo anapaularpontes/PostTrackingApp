@@ -22,7 +22,9 @@ public class CustomerDAO extends Database{
         cv.put("lastName", c.getLastName() );
         cv.put("emailAddress", c.getEmailAddress() );
         cv.put("password", c.getPassword() );
-        return db.insert("customer",null, cv);
+        long i = db.insert("customer",null, cv);
+        db.close();
+        return i;
     }
 
     public ArrayList<Customer> getAllCustomers() {
@@ -43,6 +45,7 @@ public class CustomerDAO extends Database{
                 customers.add(c);
             } while (cursor.moveToNext());
         }
+        db.close();
         return customers;
     }
 
@@ -59,6 +62,7 @@ public class CustomerDAO extends Database{
             customer.setId(cursor.getInt(0));
             customer.setApiID(cursor.getInt(5));
         }
+        db.close();
         return customer;
     }
 
@@ -75,6 +79,7 @@ public class CustomerDAO extends Database{
             customer.setId(cursor.getInt(0));
             customer.setApiID(cursor.getInt(5));
         }
+        db.close();
         return customer;
     }
 
@@ -86,8 +91,10 @@ public class CustomerDAO extends Database{
         cv.put("emailAddress", c.getEmailAddress());
         cv.put("apiID", c.getApiID());
         cv.put("password", c.getPassword());
-        return db.update("customer", cv, "id = ?",
+        int i = db.update("customer", cv, "id = ?",
                 new String[] {String.valueOf(c.getId())} );
+        db.close();
+        return i;
     }
 
     public boolean checkEmail(String email) {
@@ -95,20 +102,27 @@ public class CustomerDAO extends Database{
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select emailAddress from customer " +
                 "where emailAddress = ?", new String[] {email});
-        if(cursor.getCount() > 0)
+        if(cursor.getCount() > 0) {
+            db.close();
             return true;
-        else
+        } else {
+            db.close();
             return false;
+        }
     }
 
     public boolean checkLogin(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select emailAddress, password from customer " +
                 "where emailAddress = ? and password = ?", new String[] {email, password});
-        if(cursor.getCount() > 0)
+        if(cursor.getCount() > 0) {
+            db.close();
             return true;
-        else
+        }
+        else {
+            db.close();
             return false;
+        }
     }
 
 }

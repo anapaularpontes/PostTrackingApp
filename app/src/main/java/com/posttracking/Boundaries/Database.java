@@ -53,6 +53,7 @@ public class Database extends SQLiteOpenHelper {
                 " FOREIGN KEY (cust_id) REFERENCES customer(customer_id), " +
                 " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
         db.execSQL(sqlCreateInvoice);
+        db.close();
         Log.d(LOGTAG, "Creating table invoice" );
 
     }
@@ -62,5 +63,6 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS customer");
         db.execSQL("DROP TABLE IF EXISTS package");
         db.execSQL("DROP TABLE IF EXISTS invoice");
+        db.close();
     }
 }

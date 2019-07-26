@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class Package {
   private int id;
+  private int apiId = 0;
   private DistributionCenter origin;
   private DistributionCenter destination;
   private DistributionCenter position;
@@ -23,6 +24,14 @@ public class Package {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public void setApiId(int id) {
+    this.apiId = id;
+  }
+
+  public int getApiId() {
+    return apiId;
   }
 
   public DistributionCenter getOrigin() {
@@ -124,7 +133,7 @@ public class Package {
   @Override
   public String toString() {
 
-    return this.recipient + "\n" +"Vol:"+this.volume+" Weigth:"+this.weight;
+    return this.recipient + "\n" +"Vol:"+this.volume+" Weigth:"+this.weight+" l:"+this.getId()+" api:"+this.getApiId();
   }
 
 
