@@ -97,6 +97,14 @@ public class CustomerDAO extends Database{
         return i;
     }
 
+    public void deleteCustomer(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("delete from customer where id = ?", new String[] {String.valueOf(id)});
+        cursor.moveToFirst();
+        db.close();
+    }
+
     public boolean checkEmail(String email) {
 
         SQLiteDatabase db = this.getReadableDatabase();
