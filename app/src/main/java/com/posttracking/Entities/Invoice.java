@@ -68,13 +68,13 @@ public class Invoice {
                 "Status: ";
         switch (getStatus()) {
             case 0:
-                i += "Waiting Payment";
+                i += "Awaiting Payment";
                 break;
             case 1:
                 i += "Paid";
                 break;
             case 2:
-                i += "Canceled";
+                i += "Cancelled";
                 break;
             default:
                 i += "Unknown";

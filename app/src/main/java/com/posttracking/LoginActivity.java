@@ -97,10 +97,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 startActivity(refresh);
                 finish();
-
-                /*customers.remove(c);
-                adap.remove(c);
-                lv.setAdapter(adap);*/
             }
         });
 
