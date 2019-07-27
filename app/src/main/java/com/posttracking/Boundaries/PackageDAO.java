@@ -50,6 +50,8 @@ public class PackageDAO extends Database {
         cv.put("volume", p.getVolume());
         cv.put("origin", p.getOrigin().getId());
         cv.put("destination", p.getDestination().getId());
+        cv.put("status", p.getStatus());
+        cv.put("apiID", p.getApiId());
         cv.put("customer", LocalConfig.customerId);
         return db.insert("package", null, cv);
     }

@@ -18,7 +18,7 @@ public class Package {
   private String province;
   private String zipCode;
 
-  private int status;
+  private int status = 0;
 
   public int getStatus() {
     return status;
@@ -156,7 +156,10 @@ public class Package {
                 p += "Awaiting Payment";
                 break;
             case 1:
-                p += "Ready to sent";
+                p += "Ready to send";
+                break;
+            case 2:
+                p += "Sent";
                 break;
             default:
                 p += "Unknown";

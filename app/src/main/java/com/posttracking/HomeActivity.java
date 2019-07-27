@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.posttracking.Boundaries.CustomerDAO;
 import com.posttracking.Boundaries.LocalConfig;
+import com.posttracking.Boundaries.PackageDAO;
 import com.posttracking.Entities.Customer;
 import com.posttracking.api.models.Package;
 import com.posttracking.api.PostTrackingAPI;
@@ -27,7 +28,7 @@ public class HomeActivity extends ListActivity {
 
     private int customerId;
     Intent menuItem;
-    final String[] menuItems = new String[] {"Packages", "Create Package", "Invoices", "Push Packages"};
+    final String[] menuItems = new String[] {"Packages", "Create Package", "Invoices"};
 
 
     @Override
@@ -37,6 +38,7 @@ public class HomeActivity extends ListActivity {
 
         customerId = getIntent().getIntExtra("customerId",0);
         if(customerId!=0) {
+            LocalConfig.customerId = customerId;
             final CustomerDAO cDAO = new CustomerDAO(this);
             final Customer localCustomer = cDAO.getCustomer(customerId);
             if(localCustomer.getApiID()==0) {
@@ -78,6 +80,38 @@ public class HomeActivity extends ListActivity {
                             localCustomer.setApiID(response.body().get(0).getId());
                             cDAO.updateCustomer(localCustomer);
                             LocalConfig.customerApiId = localCustomer.getApiID();
+                            Call<List<Package>> getPackages =
+                                    postTrackingAPI.searchPackages("0", "0",
+                                            String.valueOf(localCustomer.getApiID()));
+                            getPackages.enqueue(new Callback<List<Package>>() {
+                                @Override
+                                public void onResponse(Call<List<Package>> call, Response<List<Package>> response) {
+                                    if(response.body().size()>0) {
+                                        PackageDAO pDAO = new PackageDAO(getApplicationContext());
+                                        for(Package p : response.body()) {
+                                            Log.d("PACOTE", p.toString());
+                                            p.setStatus(2);
+                                            p.setApiId(p.getId());
+                                            String.valueOf(pDAO.createPackage(p));
+                                        }
+                                        Toast toast = Toast.makeText(getApplicationContext(),
+                                                "Packages Updated",Toast.LENGTH_LONG);
+                                        toast.show();
+                                    } else {
+                                        Toast toast = Toast.makeText(getApplicationContext(),
+                                                "There is no Old Packages",Toast.LENGTH_LONG);
+                                        toast.show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<List<Package>> call, Throwable t) {
+                                    Log.d("PACOTE", "Unable to GET old Packages");
+                                    Toast toast = Toast.makeText(getApplicationContext(),
+                                            "Unable to retrieve old Packages",Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+                            });
                             Log.d("Customer INFO: ","ID Customer:"+localCustomer.getId()+
                                     " ID API:"+LocalConfig.customerApiId);
                         }
@@ -88,10 +122,8 @@ public class HomeActivity extends ListActivity {
                         Log.d("**Fail***", "unable to access the API (Load Customer)");
                     }
                 });
-
             }
         }
-
     }
 
     @Override
@@ -110,40 +142,7 @@ public class HomeActivity extends ListActivity {
                 menuItem = new Intent(this, ViewInvoicesActivity.class);
                 Log.d("Menu Item", "Invoices");
                 break;
-            case 3:
-                PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
-                Call<List<Package>> getPackages =
-                        postTrackingAPI.searchPackages("0", "0", String.valueOf(customerId));
-                getPackages.enqueue(new Callback<List<Package>>() {
-                    @Override
-                    public void onResponse(Call<List<Package>> call, Response<List<Package>> response) {
-                        if(response.body().size()>0) {
-                            for(Package p : response.body()) {
-                                Log.d("PACOTE", p+"");
-                            }
-                            Toast toast = Toast.makeText(getApplicationContext(), "Packages Updated",Toast.LENGTH_LONG);
-                            toast.show();
-                        } else {
-                            Toast toast = Toast.makeText(getApplicationContext(), "There is no Old Packages",Toast.LENGTH_LONG);
-                            toast.show();
-                        }
-                        Toast toast = Toast.makeText(getApplicationContext(), "Packages Updated",Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Package>> call, Throwable t) {
-                        Log.d("PACOTE", "Unable to GET old Packages");
-                        Toast toast = Toast.makeText(getApplicationContext(), "Unable to retrieve the Packages",Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-                break;
         }
-        LocalConfig.customerId = customerId;
-        if(menuItem instanceof Intent) {
-            startActivity(menuItem);
-        }
-
+        startActivity(menuItem);
     }
 }
