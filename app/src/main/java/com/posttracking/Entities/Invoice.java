@@ -64,7 +64,7 @@ public class Invoice {
 
     @Override
     public String toString() {
-        String i = "#: "+this.getInvoice_id()+" Package: "+this.pack_id+"\n"+
+        String i = "# "+this.getInvoice_id()+" - Package: "+this.pack_id+"\n"+
                 "Status: ";
         switch (getStatus()) {
             case 0:
