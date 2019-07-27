@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.posttracking.Boundaries.CustomerDAO;
 import com.posttracking.Boundaries.LocalConfig;
 import com.posttracking.Entities.Customer;
+import com.posttracking.api.models.Package;
 import com.posttracking.api.PostTrackingAPI;
 import com.posttracking.api.RetrofitClient;
 
@@ -25,7 +27,7 @@ public class HomeActivity extends ListActivity {
 
     private int customerId;
     Intent menuItem;
-    final String[] menuItems = new String[] {"Packages", "Create Package", "Invoices"};
+    final String[] menuItems = new String[] {"Packages", "Create Package", "Invoices", "Push Packages"};
 
 
     @Override
@@ -56,6 +58,9 @@ public class HomeActivity extends ListActivity {
                                     if(response.body() instanceof Customer) {
                                         localCustomer.setApiID(response.body().getId());
                                         cDAO.updateCustomer(localCustomer);
+                                        LocalConfig.customerApiId = localCustomer.getApiID();
+                                        Log.d("Customer INFO: ","ID Customer:"+localCustomer.getId()+
+                                                " ID API:"+LocalConfig.customerApiId);
                                     } else {
                                         Log.d("***API","Fail Creating Customer");
                                         Log.d("***API",response.body()+"");
@@ -72,6 +77,9 @@ public class HomeActivity extends ListActivity {
                             Log.d("****API", response.body().get(0).getId()+"");
                             localCustomer.setApiID(response.body().get(0).getId());
                             cDAO.updateCustomer(localCustomer);
+                            LocalConfig.customerApiId = localCustomer.getApiID();
+                            Log.d("Customer INFO: ","ID Customer:"+localCustomer.getId()+
+                                    " ID API:"+LocalConfig.customerApiId);
                         }
                     }
 
@@ -82,7 +90,6 @@ public class HomeActivity extends ListActivity {
                 });
 
             }
-            LocalConfig.customerApiId = localCustomer.getApiID();
         }
 
     }
@@ -103,8 +110,40 @@ public class HomeActivity extends ListActivity {
                 menuItem = new Intent(this, ViewInvoicesActivity.class);
                 Log.d("Menu Item", "Invoices");
                 break;
+            case 3:
+                PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
+                Call<List<Package>> getPackages =
+                        postTrackingAPI.searchPackages("0", "0", String.valueOf(customerId));
+                getPackages.enqueue(new Callback<List<Package>>() {
+                    @Override
+                    public void onResponse(Call<List<Package>> call, Response<List<Package>> response) {
+                        if(response.body().size()>0) {
+                            for(Package p : response.body()) {
+                                Log.d("PACOTE", p+"");
+                            }
+                            Toast toast = Toast.makeText(getApplicationContext(), "Packages Updated",Toast.LENGTH_LONG);
+                            toast.show();
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "There is no Old Packages",Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        Toast toast = Toast.makeText(getApplicationContext(), "Packages Updated",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Package>> call, Throwable t) {
+                        Log.d("PACOTE", "Unable to GET old Packages");
+                        Toast toast = Toast.makeText(getApplicationContext(), "Unable to retrieve the Packages",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+                break;
         }
         LocalConfig.customerId = customerId;
-        startActivity(menuItem);
+        if(menuItem instanceof Intent) {
+            startActivity(menuItem);
+        }
+
     }
 }

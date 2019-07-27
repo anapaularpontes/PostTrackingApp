@@ -62,4 +62,26 @@ public class Invoice {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        String i = "#: "+this.getInvoice_id()+" Package: "+this.pack_id+"\n"+
+                "Status: ";
+        switch (getStatus()) {
+            case 0:
+                i += "Waiting Payment";
+                break;
+            case 1:
+                i += "Paid";
+                break;
+            case 2:
+                i += "Canceled";
+                break;
+            default:
+                i += "Unknown";
+                break;
+        }
+        return i;
+
+    }
+
 }

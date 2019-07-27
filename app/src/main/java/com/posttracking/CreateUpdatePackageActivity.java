@@ -146,6 +146,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     pDAO.deletePackage(p.getId());
+                    finish();
                 }
             });
 

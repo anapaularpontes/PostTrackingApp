@@ -34,7 +34,6 @@ public class ViewPackagesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Package p = packages.get(position);
-                Log.d("CLICK TO EDIT:", p.getRecipient());
                 Intent intent = new Intent(getApplicationContext(), CreateUpdatePackageActivity.class);
                 intent.putExtra("package_id", p.getId());
                 finish();

@@ -41,4 +41,10 @@ public interface PostTrackingAPI {
           @Field("recipient") String recipient,@Field("address") String address,
           @Field("city") String city,@Field("province") String province,
           @Field("zipCode") String zipCode);
+
+  @FormUrlEncoded
+  @POST("/packages/search")
+  Call<List<com.posttracking.api.models.Package>> searchPackages(
+          @Field("origin_id") String origin_id,@Field("destination_id") String destination_id,
+          @Field("customer_id") String customer_id);
 }

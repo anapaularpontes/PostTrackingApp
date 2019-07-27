@@ -24,8 +24,8 @@ public class ViewInvoicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_invoices);
 
+        final ViewInvoicesActivity _this = this;
         InvoiceDAO iDAO = new InvoiceDAO(this);
-        Log.d("Number of invoices", String.valueOf(iDAO.getInvoices(LocalConfig.customerId).size()));
         lvInvoices = findViewById(R.id.lvInvoices);
         final List<Invoice> invoices = iDAO.getInvoices(LocalConfig.customerId);
         ArrayAdapter<Invoice> adap = new ArrayAdapter<Invoice>(this, R.layout.invoice_list_view, invoices);
@@ -35,10 +35,10 @@ public class ViewInvoicesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Invoice i = invoices.get(position);
-                Intent intent = new Intent(getApplicationContext(), UpdateInvoiceActivity.class);
+                Intent intent = new Intent(_this, UpdateInvoiceActivity.class);
                 intent.putExtra("invoice_id", i.getInvoice_id());
-                finish();
                 startActivity(intent);
+                finish();
             }
         });
     }

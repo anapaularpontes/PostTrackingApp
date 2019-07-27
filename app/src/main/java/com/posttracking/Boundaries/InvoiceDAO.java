@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.posttracking.Entities.Invoice;
 import com.posttracking.Entities.Quotation;
@@ -60,7 +61,7 @@ public class InvoiceDAO extends Database {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select inv_id, pack_id, deliveryTime, amount, status" +
                 " from invoice" +
-                " where invoiceID = ?", new String[] {String.valueOf(invoiceID)});
+                " where inv_id = ?", new String[] {String.valueOf(invoiceID)});
         Invoice i = new Invoice();
         if(cursor.moveToFirst()) {
             i.setInvoice_id(cursor.getInt(0));
@@ -71,5 +72,26 @@ public class InvoiceDAO extends Database {
         }
         db.close();
         return i;
+    }
+
+    public int setInvoiceStatus( Invoice i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cvInvoice = new ContentValues();
+        cvInvoice.put("status", i.getStatus());
+        int updates = db.update("invoice", cvInvoice, "inv_id = ?",
+                new String[] {String.valueOf(i.getInvoice_id())});
+
+
+        //Case Paid, set the package to ready to sent
+        ContentValues cvPackage = new ContentValues();
+        if(i.getStatus()==1) {
+            cvPackage.put("status", 1);
+        } else {
+            cvPackage.put("status", 0);
+        }
+        Log.d("Package Updated", ""+db.update("package", cvPackage, "pack_id = ?",
+                new String[] {String.valueOf(i.getPack_id())}));
+        db.close();
+        return updates;
     }
 }

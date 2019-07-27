@@ -142,6 +142,7 @@ public class ViewQuotationActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<Package> call, Throwable t) {
                         Log.d("FAIL API", t.getMessage());
+                        Log.d("FAIL API", "APICustomer: "+LocalConfig.customerApiId);
                         Toast toast = Toast.makeText(getApplicationContext(),
                             "Unable to persist the Package. Please try again later", Toast.LENGTH_LONG);
                         toast.show();

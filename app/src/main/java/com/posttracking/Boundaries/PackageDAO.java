@@ -24,7 +24,8 @@ public class PackageDAO extends Database {
         List<Package> list = new ArrayList<Package>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " +
-                        "pack_id, recipient, address,weight,volume,origin,destination,customer,apiID" +
+                        "pack_id, recipient, address,weight,volume,origin,destination," +
+                        "customer,apiID, status" +
                         " from package where customer = ?",
                 new String[] {String.valueOf(customerID)});
         DistributionCenter origin = new DistributionCenter();
@@ -71,6 +72,10 @@ public class PackageDAO extends Database {
     public int deletePackage(int id) {
         SQLiteDatabase db = getWritableDatabase();
         int i = db.delete("package", "pack_id = ?", new String[] {String.valueOf(id)});
+        // Canceling Invoices
+        ContentValues cv = new ContentValues();
+        cv.put("status", 2);
+        db.update("invoice", cv, "pack_id = ?",  new String[] {String.valueOf(id)});
         db.close();
         return i;
     }
@@ -78,11 +83,11 @@ public class PackageDAO extends Database {
     public Package getPackage(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select " +
-                        "pack_id, recipient, address,weight,volume,origin,destination,customer,apiID" +
+                        "pack_id, recipient, address,weight,volume,origin,destination,customer," +
+                        "apiID, status" +
                         " from package where pack_id = ?",
                 new String[] {String.valueOf(id)});
         Package p = new Package();
-
         if(cursor.moveToFirst()) {
             fillPackage(cursor,p);
         }
@@ -107,6 +112,7 @@ public class PackageDAO extends Database {
         c.setId(cursor.getInt(7));
         p.setCustomer(c);
         p.setApiId(cursor.getInt(8));
+        p.setStatus(cursor.getInt(9));
 
     }
 }

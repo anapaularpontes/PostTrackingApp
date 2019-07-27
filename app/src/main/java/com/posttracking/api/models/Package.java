@@ -18,6 +18,16 @@ public class Package {
   private String province;
   private String zipCode;
 
+  private int status;
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
   public int getId() {
     return id;
   }
@@ -130,10 +140,30 @@ public class Package {
     this.zipCode = zipCode;
   }
 
+
+
   @Override
   public String toString() {
 
-    return this.recipient + "\n" +"Vol:"+this.volume+" Weigth:"+this.weight+" l:"+this.getId()+" api:"+this.getApiId();
+    String p = "#: "+this.getId()+" To: "+this.recipient + "\n"
+            +"Vol:"+this.volume+" Weigth:"+this.weight
+            +"\nStatus: ";
+    if(this.getApiId()==0) {
+        p += "Ready to get Quotations";
+    } else {
+        switch (this.getStatus()) {
+            case 0:
+                p += "Awaiting Payment";
+                break;
+            case 1:
+                p += "Ready to sent";
+                break;
+            default:
+                p += "Unknown";
+                break;
+        }
+    }
+    return p;
   }
 
 
