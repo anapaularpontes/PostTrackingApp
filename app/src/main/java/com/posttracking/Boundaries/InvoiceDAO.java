@@ -20,10 +20,9 @@ public class InvoiceDAO extends Database {
     public List<Invoice> getInvoices(int customerID) {
         List<Invoice> list = new ArrayList<Invoice>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select inv_id, package.pack_id, invoice.deliveryTime, invoice.amount, invoice.status" +
+        Cursor cursor = db.rawQuery("select inv_id, pack_id, deliveryTime, amount, status" +
                         " from invoice" +
-                        " inner join package ON package.pack_id = invoice.pack_id" +
-                        " where invoice.cust_id = ?",
+                        " where cust_id = ?",
                 new String[] {String.valueOf(customerID)});
 
         if(cursor.moveToFirst()) {
@@ -31,7 +30,7 @@ public class InvoiceDAO extends Database {
                 Invoice i = new Invoice();
                 i.setInvoice_id(cursor.getInt(0));
                 i.setPack_id(cursor.getInt(1));
-                i.setDeliveryTime(cursor.getInt(2));
+                i.setDeliveryTime(cursor.getDouble(2));
                 i.setAmount(cursor.getDouble(3));
                 i.setStatus(cursor.getInt(4));
                 list.add(i);
@@ -43,9 +42,12 @@ public class InvoiceDAO extends Database {
 
     public long createInvoice(Invoice i) {
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cvUpdate = new ContentValues();
+        cvUpdate.put("status", 2);
+        db.update("invoice",cvUpdate," pack_id = ?", new String[] {String.valueOf(i.getPack_id())});
         ContentValues cv = new ContentValues();
-        cv.put("cust_id", LocalConfig.customerId);
-        cv.put("pack_id", LocalConfig.packageId);
+        cv.put("cust_id", i.getCust_id());
+        cv.put("pack_id", i.getPack_id());
         cv.put("deliveryTime", i.getDeliveryTime());
         cv.put("amount", i.getAmount());
         cv.put("status", 0);
@@ -56,15 +58,14 @@ public class InvoiceDAO extends Database {
 
     public Invoice getInvoice(int invoiceID) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select inv_id, package.pack_id, invoice.deliveryTime, invoice.amount, invoice.status" +
+        Cursor cursor = db.rawQuery("select inv_id, pack_id, deliveryTime, amount, status" +
                 " from invoice" +
-                " inner join package ON package.pack_id = invoice.pack_id" +
                 " where invoiceID = ?", new String[] {String.valueOf(invoiceID)});
         Invoice i = new Invoice();
         if(cursor.moveToFirst()) {
             i.setInvoice_id(cursor.getInt(0));
             i.setPack_id(cursor.getInt(1));
-            i.setDeliveryTime(cursor.getInt(2));
+            i.setDeliveryTime(cursor.getDouble(2));
             i.setAmount(cursor.getDouble(3));
             i.setStatus(cursor.getInt(4));
         }

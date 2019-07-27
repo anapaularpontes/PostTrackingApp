@@ -26,6 +26,7 @@ import com.posttracking.api.models.Journey;
 import com.posttracking.api.models.Package;
 import com.posttracking.api.models.Path;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -49,6 +50,7 @@ public class ViewQuotationActivity extends AppCompatActivity {
         btnGenerateInvoice.setVisibility(View.GONE);
         final List<Path> paths = new ArrayList<Path>();
         final List<Invoice> invoices = new ArrayList<Invoice>();
+        final NumberFormat nf = NumberFormat.getCurrencyInstance();
 
 
         final int package_id = getIntent().getIntExtra("package_id", 0);
@@ -68,25 +70,32 @@ public class ViewQuotationActivity extends AppCompatActivity {
             //ArrayAdapter adap;
             @Override
             public void onResponse(Call<List<Path>> call, Response<List<Path>> response) {
+                List<Double> nOfDaysList = new ArrayList<Double>();
                 if(response.body().size()==0) {
                     tvMessage.setText("Unable to find a Quotation");
                 } else {
-                    for(int i=0; i < response.body().size(); ++i) {
-                        paths.add(response.body().get(i));
-                        // Generating Invoice
-                        Invoice inv = new Invoice();
-                        inv.setDeliveryTime(response.body().get(i).getNOfDays());
-                        inv.setCust_id(LocalConfig.customerId);
-                        inv.setPack_id(package_id);
-                        inv.generateAmount(p.getWeight(), p.getVolume());
-                        //Generating Radio
-                        RadioButton rdbtn = new RadioButton(_this);
-                        rdbtn.setId(View.generateViewId());
-                        rdbtn.setTextColor(Color.BLACK);
-                        rdbtn.setTextSize(24);
-                        rdbtn.setText(response.body().get(i).toString());
-                        rdbtn.setId(i);
-                        rg.addView(rdbtn);
+                    for(int i=0; (i < response.body().size() && i < 5); ++i) {
+                        if(!nOfDaysList.contains(response.body().get(i).getNOfDays())) {
+                            Double ndays = response.body().get(i).getNOfDays();
+                            paths.add(response.body().get(i));
+                            // Generating Invoice
+                            Invoice inv = new Invoice();
+                            inv.setDeliveryTime(ndays);
+                            inv.setCust_id(LocalConfig.customerId);
+                            inv.setPack_id(package_id);
+                            inv.generateAmount(p.getWeight(), p.getVolume());
+                            invoices.add(inv);
+                            //Generating Radio
+                            RadioButton rdbtn = new RadioButton(_this);
+                            rdbtn.setId(View.generateViewId());
+                            rdbtn.setTextColor(Color.BLACK);
+                            rdbtn.setTextSize(24);
+                            rdbtn.setText(response.body().get(i).toString() +
+                                    "Amount: "+nf.format(inv.getAmount()));
+                            rdbtn.setId(paths.size()-1);
+                            rg.addView(rdbtn);
+                            nOfDaysList.add(ndays);
+                        }
                     }
                 btnGenerateInvoice.setVisibility(View.VISIBLE);
                 tvMessage.setText("");
@@ -106,10 +115,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
                 String journeys_st = "";
                 for(Journey j : journeys) {
                     journeys_st += j.getId()+",";
-                    Log.d("JOURNEYS", j.getId()+"");
-
                 }
-                Log.d("JOURNEYS", journeys_st.substring(0,journeys_st.length()-1));
+                Log.d("Journeys:", journeys_st.substring(0,journeys_st.length()-1));
                 Call<com.posttracking.api.models.Package> persistPackage = api.createPackage(
                         String.valueOf(LocalConfig.customerApiId),
                         String.valueOf(p.getOrigin().getId()),
@@ -129,12 +136,14 @@ public class ViewQuotationActivity extends AppCompatActivity {
                         // The answer ID is the ID on API
                         p.setApiId(response.body().getId());
                         pDAO.updatePackage(p);
+                        iDAO.createInvoice(invoices.get(rg.getCheckedRadioButtonId()));
                     }
 
                     @Override
                     public void onFailure(Call<Package> call, Throwable t) {
+                        Log.d("FAIL API", t.getMessage());
                         Toast toast = Toast.makeText(getApplicationContext(),
-                            "unable to persist the Package. Please try again later", Toast.LENGTH_LONG);
+                            "Unable to persist the Package. Please try again later", Toast.LENGTH_LONG);
                         toast.show();
 
                     }

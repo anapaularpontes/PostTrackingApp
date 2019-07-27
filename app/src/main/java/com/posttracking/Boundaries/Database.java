@@ -47,13 +47,12 @@ public class Database extends SQLiteOpenHelper {
                 " inv_id INTEGER PRIMARY KEY," +
                 " cust_id INT," +
                 " pack_id INT," +
-                " deliveryTime INT," +
+                " deliveryTime DECIMAL," +
                 " amount DECIMAL," +
                 " status INT DEFAULT 0," +
                 " FOREIGN KEY (cust_id) REFERENCES customer(customer_id), " +
                 " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
         db.execSQL(sqlCreateInvoice);
-        db.close();
         Log.d(LOGTAG, "Creating table invoice" );
 
     }
