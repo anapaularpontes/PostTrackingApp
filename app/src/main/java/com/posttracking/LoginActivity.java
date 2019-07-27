@@ -1,12 +1,7 @@
 package com.posttracking;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import android.content.Intent;
 import android.view.View;
@@ -14,13 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.posttracking.Boundaries.CustomerDAO;
-import com.posttracking.Boundaries.Database;
 import com.posttracking.Entities.Customer;
 
 import java.util.ArrayList;
@@ -35,27 +28,31 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailText;
     EditText passwordText;
     Button loginButton;
+    Button deleteButton;
     TextView signUpLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ListView lv = findViewById(R.id.lvLogins);
+        final ListView lv = findViewById(R.id.lvLogins);
 
         emailText = findViewById(R.id.input_email);
         passwordText = findViewById(R.id.input_password);
         loginButton = findViewById(R.id.btn_login);
+        deleteButton = findViewById(R.id.btn_delete);
         signUpLink = findViewById(R.id.link_signup);
 
         db = new CustomerDAO(this);
         final ArrayList<Customer> customers = db.getAllCustomers();
         final Intent goHome = new Intent(this,HomeActivity.class);
+        final Intent refresh = new Intent(this,LoginActivity.class);
 
-        ArrayAdapter adap;
+        final ArrayAdapter adap;
         if (customers.size() == 0) {
             adap = new ArrayAdapter<String>(this, R.layout.login_list_view, new String[] {"No Customer saved.\nPlease Sign Up"});
             loginButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
             emailText.setVisibility(View.GONE);
             passwordText.setVisibility(View.GONE);
         } else {
@@ -90,6 +87,23 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Customer c = db.getCustomer(emailText.getText().toString());
+                db.deleteCustomer(c.getId());
+
+                startActivity(refresh);
+                finish();
+
+                /*customers.remove(c);
+                adap.remove(c);
+                lv.setAdapter(adap);*/
+            }
+        });
+
         signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
