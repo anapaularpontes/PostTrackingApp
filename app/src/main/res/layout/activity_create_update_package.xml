@@ -104,4 +104,10 @@
         android:layout_height="wrap_content"
         android:text="Get Quotations" />
 
+    <Button
+        android:id="@+id/btnCheckStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Status" />
+
 </LinearLayout>

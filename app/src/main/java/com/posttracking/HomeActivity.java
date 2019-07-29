@@ -37,10 +37,14 @@ public class HomeActivity extends ListActivity {
         setListAdapter(new ArrayAdapter<String>(this,R.layout.activity_home,R.id.listMenu,menuItems));
 
         customerId = getIntent().getIntExtra("customerId",0);
+        Log.d("Customer Info->", "ID: "+String.valueOf(customerId));
+
+
         if(customerId!=0) {
             LocalConfig.customerId = customerId;
             final CustomerDAO cDAO = new CustomerDAO(this);
             final Customer localCustomer = cDAO.getCustomer(customerId);
+            Log.d("Customer Info->", "API_ID: "+localCustomer.getApiID());
             if(localCustomer.getApiID()==0) {
                 final PostTrackingAPI postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
 
@@ -122,6 +126,8 @@ public class HomeActivity extends ListActivity {
                         Log.d("**Fail***", "unable to access the API (Load Customer)");
                     }
                 });
+            } else {
+                LocalConfig.customerApiId = localCustomer.getApiID();
             }
         }
     }
