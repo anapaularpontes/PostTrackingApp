@@ -1,5 +1,7 @@
 package com.posttracking;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
         Button savePackage = findViewById(R.id.btnSave);
         Button deletePackage = findViewById(R.id.btnDelete);
         Button getQuotation = findViewById(R.id.btnGetQuotation);
+        Button btnCheckStatus = findViewById(R.id.btnCheckStatus);
         final TextView recipient = findViewById(R.id.txtRecipient);
         final TextView address = findViewById(R.id.txtAddress);
         final TextView volume = findViewById(R.id.txtVolume);
@@ -62,6 +65,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
             updateSpinners(null);
             deletePackage.setVisibility(View.GONE);
             getQuotation.setVisibility(View.GONE);
+            btnCheckStatus.setVisibility(View.GONE);
 
             savePackage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,6 +107,11 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
 
 
             final Package p = pDAO.getPackage(package_id);
+            if(p.getApiId()!=0) {
+                btnCheckStatus.setVisibility(View.VISIBLE);
+            } else {
+                btnCheckStatus.setVisibility(View.GONE);
+            }
             recipient.setText(p.getRecipient());
             address.setText(p.getAddress());
             volume.setText(String.valueOf(p.getVolume()));
@@ -156,6 +165,24 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ViewQuotationActivity.class);
                     intent.putExtra("package_id", p.getId());
                     startActivity(intent);
+                }
+            });
+
+            btnCheckStatus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Context", getApplicationContext().toString());
+                    Log.d("Context", _this.toString());
+                    AlertDialog alertDialog = new AlertDialog.Builder(_this).create();
+                    alertDialog.setTitle("Package position");
+                    alertDialog.setMessage("Alert message to be shown");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
                 }
             });
         }
