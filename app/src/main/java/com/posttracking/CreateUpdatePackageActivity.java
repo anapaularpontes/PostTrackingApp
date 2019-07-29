@@ -156,6 +156,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ViewQuotationActivity.class);
                     intent.putExtra("package_id", p.getId());
                     startActivity(intent);
+                    finish();
                 }
             });
         }

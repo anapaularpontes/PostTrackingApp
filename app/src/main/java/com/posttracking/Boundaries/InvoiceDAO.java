@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.posttracking.Entities.Invoice;
-import com.posttracking.Entities.Quotation;
 
 import java.util.ArrayList;
 import java.util.List;

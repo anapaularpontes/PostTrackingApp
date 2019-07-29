@@ -1,5 +1,6 @@
 package com.posttracking;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +48,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
         final List<Invoice> invoices = new ArrayList<Invoice>();
         final NumberFormat nf = NumberFormat.getCurrencyInstance();
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
 
         final int package_id = getIntent().getIntExtra("package_id", 0);
         if(package_id==0) {
@@ -106,6 +109,8 @@ public class ViewQuotationActivity extends AppCompatActivity {
         btnGenerateInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.setMessage("Creating Invoice");
+                progressDialog.show();
                 List<Journey> journeys = paths.get(rg.getCheckedRadioButtonId()).getJourneys();
                 String journeys_st = "";
                 for(Journey j : journeys) {
@@ -132,10 +137,13 @@ public class ViewQuotationActivity extends AppCompatActivity {
                         p.setApiId(response.body().getId());
                         pDAO.updatePackage(p);
                         iDAO.createInvoice(invoices.get(rg.getCheckedRadioButtonId()));
+                        progressDialog.dismiss();
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Call<Package> call, Throwable t) {
+                        progressDialog.dismiss();
                         Log.d("FAIL API", t.getMessage());
                         Log.d("FAIL API", "APICustomer: "+LocalConfig.customerApiId);
                         Toast toast = Toast.makeText(getApplicationContext(),
