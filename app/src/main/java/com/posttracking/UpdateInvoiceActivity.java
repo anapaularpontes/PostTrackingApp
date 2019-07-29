@@ -3,6 +3,7 @@ package com.posttracking;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -50,12 +51,14 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(i.getStatus());
+        packStatus(i.getStatus());
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
                     i.setStatus(spinner.getSelectedItemPosition());
+                    packStatus(i.getStatus());
                     iDAO.setInvoiceStatus(i);
                     finish();
                 } catch (Exception e) {
@@ -68,7 +71,8 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
 
     public void packStatus(int statusPack)
     {
-        /*switch(statusPack) {
+        TextView status = findViewById(R.id.txtStatus);
+        switch(statusPack) {
             case 0:
                 status.setText("Awaiting payment");
                 break;
@@ -78,6 +82,6 @@ public class UpdateInvoiceActivity extends AppCompatActivity {
             case 2:
                 status.setText("Cancelled");
                 break;
-        }*/
+        }
     }
 }
