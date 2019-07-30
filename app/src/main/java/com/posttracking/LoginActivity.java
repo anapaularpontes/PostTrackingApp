@@ -16,9 +16,13 @@ import android.widget.Toast;
 
 import com.posttracking.Boundaries.CustomerDAO;
 import com.posttracking.Boundaries.PackageDAO;
+import com.posttracking.Boundaries.InvoiceDAO;
 import com.posttracking.Entities.Customer;
+import com.posttracking.Entities.Invoice;
+import com.posttracking.api.models.Package;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         db = new CustomerDAO(this);
         pDAO = new PackageDAO(this);
+        iDAO = new InvoiceDAO(this);
         final ArrayList<Customer> customers = db.getAllCustomers();
         final Intent goHome = new Intent(this,HomeActivity.class);
         final Intent refresh = new Intent(this,LoginActivity.class);
@@ -98,6 +103,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Customer c = db.getCustomer(emailText.getText().toString());
+                Log.d("Customer id", String.valueOf(c.getId()));
+                final List<Invoice> invoices = iDAO.getInvoices(c.getId());
+                final List<Package> packages = pDAO.getPackages(c.getId());
+                //if(!invoices.isEmpty())
+                    iDAO.deleteInvoicesCustomer(c.getId());
+                //if(!packages.isEmpty())
+                    pDAO.deletePackagesCustomer(c.getId());
                 db.deleteCustomer(c.getId());
 
                 startActivity(refresh);

@@ -93,4 +93,13 @@ public class InvoiceDAO extends Database {
         db.close();
         return updates;
     }
+
+    public void deleteInvoicesCustomer(int customerID)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("delete from invoice where cust_id = ?",
+                new String[] {String.valueOf(customerID)});
+        cursor.moveToFirst();
+        db.close();
+    }
 }

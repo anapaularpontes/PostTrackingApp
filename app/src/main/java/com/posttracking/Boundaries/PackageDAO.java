@@ -117,4 +117,13 @@ public class PackageDAO extends Database {
         p.setStatus(cursor.getInt(9));
 
     }
+
+    public void deletePackagesCustomer(int customerID)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("delete from package where customer = ?",
+                new String[] {String.valueOf(customerID)});
+        cursor.moveToFirst();
+        db.close();
+    }
 }
