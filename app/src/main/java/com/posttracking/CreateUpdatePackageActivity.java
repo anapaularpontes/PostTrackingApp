@@ -172,18 +172,46 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
             btnCheckStatus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("Context", getApplicationContext().toString());
-                    Log.d("Context", _this.toString());
-                    AlertDialog alertDialog = new AlertDialog.Builder(_this).create();
+                    final AlertDialog alertDialog = new AlertDialog.Builder(_this).create();
                     alertDialog.setTitle("Package position");
-                    alertDialog.setMessage("Alert message to be shown");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+
+                    postTrackingAPI = RetrofitClient.getRetrofitInstance().create(PostTrackingAPI.class);
+                    Call<Package> call = postTrackingAPI.getPackage(String.valueOf(p.getApiId()));
+
+                    call.enqueue(new Callback<Package>() {
+                        @Override
+                        public void onResponse(Call<Package> call, Response<Package> response) {
+                            Package pAPI = response.body();
+                            StringBuilder sb = new StringBuilder();
+                            sb.append("Position: "+pAPI.getPosition().toString());
+                            //sb.append("Moviment(s): "+pAPI.getPathInOrder());
+                            for(String s: pAPI.getPathInOrder()) {
+                              sb.append(s+"\n");
+                            }
+                            alertDialog.setMessage(sb.toString());
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Package> call, Throwable t) {
+                            alertDialog.setMessage("Unable to get the Status");
+
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    });
                 }
             });
         }

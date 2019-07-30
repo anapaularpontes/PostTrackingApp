@@ -10,7 +10,7 @@ public class RetrofitClient {
   //Define the base URL
   // 10.0.2.2 is localhost
   //private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
-  private static final String BASE_URL = "http://10.0.2.2:8080";
+  private static final String BASE_URL = "http://posttracking.azurewebsites.net";
 
   //Create the Retrofit instance//
   public static Retrofit getRetrofitInstance() {
