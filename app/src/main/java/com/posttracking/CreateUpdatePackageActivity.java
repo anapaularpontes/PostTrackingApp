@@ -183,7 +183,7 @@ public class CreateUpdatePackageActivity extends AppCompatActivity {
                         public void onResponse(Call<Package> call, Response<Package> response) {
                             Package pAPI = response.body();
                             StringBuilder sb = new StringBuilder();
-                            sb.append("Position: "+pAPI.getPosition().toString());
+                            sb.append("Position: "+pAPI.getPosition().getName()+"\n");
                             //sb.append("Moviment(s): "+pAPI.getPathInOrder());
                             for(String s: pAPI.getPathInOrder()) {
                               sb.append(s+"\n");

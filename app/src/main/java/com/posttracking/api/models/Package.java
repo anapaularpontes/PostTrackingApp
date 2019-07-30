@@ -177,17 +177,15 @@ public class Package {
       List<String> l = new ArrayList<String>();
       DistributionCenter dc = this.origin;
       l.add("Origin:"+this.origin.getName());
-      Log.d("ttt", "DC: "+dc.hashCode());
-      Log.d("ttt", "Position: "+this.position.hashCode());
-      /*while(!dc.equals(this.position)){
+      while(dc.getId()!=this.position.getId()){
         for(Journey j : this.getJourneys()) {
-            if(j.getOrigin()==dc) {
-                l.add(j.getArrivalFormated()+" "+j.getDestination().getName());
+            if(j.getOrigin().getId()==dc.getId()) {
+                l.add(j.getArrivalFormated()+" - "+j.getDestination().getName());
                 dc = j.getDestination();
                 break;
             }
         }
-      }*/
+      }
       return l;
   }
 
