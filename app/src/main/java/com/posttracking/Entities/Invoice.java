@@ -47,7 +47,7 @@ public class Invoice {
     }
 
     public void generateAmount(double weight, double volume) {
-        this.amount = ((weight * 0.9) + (volume * 0.8)) *  (1.0 / (double) this.deliveryTime);
+        this.amount = ((weight * 1.9) + (volume * 2.8)) *  (1.0 / (double) this.deliveryTime);
     }
 
     public void setAmount(double amt) {
