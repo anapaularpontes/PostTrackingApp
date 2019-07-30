@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.posttracking.Boundaries.CustomerDAO;
+import com.posttracking.Boundaries.PackageDAO;
 import com.posttracking.Entities.Customer;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     private com.posttracking.Boundaries.CustomerDAO db;
+    private com.posttracking.Boundaries.PackageDAO pDAO;
+    private com.posttracking.Boundaries.InvoiceDAO iDAO;
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -44,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         signUpLink = findViewById(R.id.link_signup);
 
         db = new CustomerDAO(this);
+        pDAO = new PackageDAO(this);
         final ArrayList<Customer> customers = db.getAllCustomers();
         final Intent goHome = new Intent(this,HomeActivity.class);
         final Intent refresh = new Intent(this,LoginActivity.class);

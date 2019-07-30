@@ -39,7 +39,7 @@ public class Database extends SQLiteOpenHelper {
                 " customer INT," +
                 " status INT DEFAULT 0," +
                 " apiID INT DEFAULT 0," +
-                " FOREIGN KEY (customer) REFERENCES customer(customer_id))");
+                " FOREIGN KEY (customer) REFERENCES customer(customer_id) ON DELETE CASCADE)");
         db.execSQL(sqlCreatePackage);
         Log.d(LOGTAG, "Creating table pack" );
 
@@ -50,7 +50,7 @@ public class Database extends SQLiteOpenHelper {
                 " deliveryTime DECIMAL," +
                 " amount DECIMAL," +
                 " status INT DEFAULT 0," +
-                " FOREIGN KEY (cust_id) REFERENCES customer(customer_id), " +
+                " FOREIGN KEY (cust_id) REFERENCES customer(customer_id) ON DELETE CASCADE, " +
                 " FOREIGN KEY (pack_id) REFERENCES package (pack_id))");
         db.execSQL(sqlCreateInvoice);
         Log.d(LOGTAG, "Creating table invoice" );
