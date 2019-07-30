@@ -1,5 +1,9 @@
 package com.posttracking.api.models;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Package {
@@ -145,7 +149,7 @@ public class Package {
   @Override
   public String toString() {
 
-    String p = "#: "+this.getId()+" To: "+this.recipient + "\n"
+    String p = "# "+this.getId()+" To: "+this.recipient + "\n"
             +"Vol:"+this.volume+" Weigth:"+this.weight
             +"\nStatus: ";
     if(this.getApiId()==0) {
@@ -167,6 +171,24 @@ public class Package {
         }
     }
     return p;
+  }
+
+  public List<String> getPathInOrder() {
+      List<String> l = new ArrayList<String>();
+      DistributionCenter dc = this.origin;
+      l.add("Origin:"+this.origin.getName());
+      Log.d("ttt", "DC: "+dc.hashCode());
+      Log.d("ttt", "Position: "+this.position.hashCode());
+      /*while(!dc.equals(this.position)){
+        for(Journey j : this.getJourneys()) {
+            if(j.getOrigin()==dc) {
+                l.add(j.getArrivalFormated()+" "+j.getDestination().getName());
+                dc = j.getDestination();
+                break;
+            }
+        }
+      }*/
+      return l;
   }
 
 

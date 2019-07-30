@@ -2,6 +2,7 @@ package com.posttracking.api;
 
 import com.posttracking.Entities.Customer;
 import com.posttracking.api.models.DistributionCenter;
+import com.posttracking.api.models.Package;
 
 
 import java.util.List;
@@ -47,4 +48,7 @@ public interface PostTrackingAPI {
   Call<List<com.posttracking.api.models.Package>> searchPackages(
           @Field("origin_id") String origin_id,@Field("destination_id") String destination_id,
           @Field("customer_id") String customer_id);
+
+  @GET("packages/{id}")
+  Call<Package> getPackage(@Path("id") String id);
 }
